@@ -2,6 +2,8 @@
 import Image from "next/image";
 import "./App.css";
 import { useParams } from "next/navigation";
+import SplashScreen from "./components/splash_screen";
+import bg from '/public/images/background.svg'
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -11,28 +13,14 @@ import IndicationComponent from "./components/indicators";
 import Footer from "./components/footer";
 import PartnersScreen from "./components/partners";
 import AboutUsScreen from "./components/mession";
-
+import instance from '../utils/axios'
 import ServicesComponent from "./components/services";
 import SubNavComponent from "./components/sub_nav";
 import TestimonialsComponent from "./components/testimonials";
-// import useDataFromApiHook from '../hooks/data_fron_api';
-// import { Helmet } from 'react-helmet';
-// interface homeInterface {
-//  handleAboutUsScroll: () => void
-// }
-export default function HomePage() {
+ export default function HomePage() {
   const content = useTranslations("");
   const params = useParams();
-  // const [content, setContent] = useState<ContentInterface>({
-  //   isEnglish: false,
-  //   data: null,
-  // });
-  //  useEffect(() => {
-  //    window.scrollTo(0, 0); // Scroll to top on every route change
-  //  }, [params]);
-
   const currentLang = params.locale;
-
   const imageRef = useRef<HTMLImageElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const btnsRef = useRef<HTMLDivElement>(null);
@@ -42,16 +30,19 @@ export default function HomePage() {
   const mobRefAttr = useRef<HTMLDivElement>(null);
   const animate = useAnimation();
   const isInView = useInView(refAttr);
-  const isInMobileView = useInView(mobRefAttr);
-
-  // const { dataList } = useDataFromApiHook('statstics')
-  const handleAnimation = useCallback(() => {
-    if (isInView) {
+  const [isLoading,setLoading] = useState(false)
+  const [statistics,setStatistics] = useState([])
+  const [partners,setPartners] = useState([])
+  const [services,setServices] = useState([])
+  const [testimonials,setTestimonials] = useState([])
+  const clientData = instance.get("/client",{ params: { language: currentLang} })
+   const handleAnimation = useCallback(() => {
+    if (isInView && statistics.length > 0) {
       animate.start("visible");
     } else {
       animate.start("hidden");
     }
-  }, [isInView]);
+  }, [isInView,statistics]);
 
   const aboutRef = useRef<HTMLDivElement>(null);
   const isEnglish = useParams().locale == "en";
@@ -64,8 +55,24 @@ export default function HomePage() {
 
   useEffect(() => {
     handleAnimation();
-  }, [isInView]);
+  }, [isInView,statistics]);
 
+  useEffect(() => {
+    if(statistics.length == 0 || testimonials.length == 0 || partners.length ==0 || services.length == 0){
+      setLoading(true)
+      clientData.then((res) => {
+        if(res.status == 200)
+          setStatistics(()=>res.data.response.statstics)
+          setPartners(()=>res.data.response.partners)
+          setTestimonials(()=>res.data.response.testimonials)
+          setServices(()=>res.data.response.services)
+        setLoading(false)
+       }).catch((e)=>{
+        setLoading(false)
+      })
+      
+    }
+  },[statistics])
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       const x: number = event.clientX / 90;
@@ -84,52 +91,22 @@ export default function HomePage() {
     };
   }, [imageRef.current, imageContainerRef.current]);
 
-  return (
-    <div className={` w-full h overflow-x-hidden bg-white  relative  flex flex-col p-0`}>
+   return (
+
+    <div className="relative h-full"> 
+       <div
+         className="absolute top-[13%] w-12 bg-green z-10"
+         ref={refAttr}
+       ></div>
+      {isLoading? <SplashScreen/> : 
+      
+     <div className={` w-full h overflow-x-hidden bg-white  relative  flex flex-col p-0`}>
       <section
         ref={imageContainerRef}
         className={` w-full h-screen  overflow-x-hidden overflow-y-hidden bg-black  relative  flex flex-col p-0`}
       >
-        <div
-          className="absolute top-[43%]"
-          ref={refAttr}
-        ></div>
 
-        {/* <Helmet>
-       <link rel="icon" type="image/svg+xml" href={logo1} />
-       <meta charSet="utf-8" />
-       <title>{content?.data?.Home + " | " + content?.data?.companyName  ?? ""}</title>
-       <link rel="canonical" href="https://faid-el-neam.vercel.app/our-team" />
-       <meta
-         name="description"
-         content={
-         content?.isEnglish? "Faid Al-Naam Food Security Projects Company specializes in land reclamation and livestock production projects for the food sector. A group of companies dedicated to food security , spearheaded by Faid Al-Naam.":" شركة فيض النعم لمشاريع الأمن الغذائي متخصص في مشاريع استصلاح الأراضي والإنتاج الحيواني. للغذاء تم تأسيس مجموعة شركات متخصصة في مجال الأمن الغذائي  من خلال شركة فيض النعم لمشاريع الأمن الغذائي."
-
-          }
-       />
-       <meta
-         property="og:url"
-         content="https://faid-el-neam.vercel.app/"
-       />
-       <meta property="og:type" content="website" />
-       <meta property="og:title" content="Faid Al Naam" />
-
-       <meta name="twitter:card" content="summary_large_image" />
-       <meta property="twitter:domain" content="faid-el-neam.vercel.app" />
-       <meta
-         property="twitter:url"
-         content="https://faid-el-neam.vercel.app/"
-       />
-       <meta name="twitter:title" content={content?.data?.home ?? ""} />
-       <meta
-         name="twitter:description"
-         content={
-           content?.isEnglish? "Faid Al-Naam Food Security Projects Company specializes in land reclamation and livestock production projects for the food sector. A group of companies dedicated to food security , spearheaded by Faid Al-Naam.":" شركة فيض النعم لمشاريع الأمن الغذائي متخصص في مشاريع استصلاح الأراضي والإنتاج الحيواني. للغذاء تم تأسيس مجموعة شركات متخصصة في مجال الأمن الغذائي  من خلال شركة فيض النعم لمشاريع الأمن الغذائي."
-         }
-       />
-       <meta name="twitter:image" content={logo1} />
-     </Helmet> */}
-
+      
         <div className="w-full bg-black  min-h-screen  relative top-16 ">
           <motion.div
             variants={{
@@ -141,8 +118,9 @@ export default function HomePage() {
             transition={{ duration: 0.3, delay: 0.23 }}
           >
             <Image
-              src="/images/background.svg"
+              src={bg}
               ref={imageRef}
+              priority={true}
               alt="Home image"
               width={1920}
               height={1080}
@@ -209,31 +187,27 @@ export default function HomePage() {
         >
           <div ref={mobRefAttr}></div>
 
-          <IndicationComponent
-            title={"sdds"}
-            number={123123}
+            {statistics.map((data:any)=><IndicationComponent
+            key={data._id}
+            title={!isEnglish? data.titleAr:data.titleEn}
+            number={data.value}
             isLoaded={isInView}
-          />
-          <IndicationComponent
-            title={"sdds"}
-            number={123123}
-            isLoaded={isInView}
-          />
-          <IndicationComponent
-            title={"sdds"}
-            number={123123}
-            isLoaded={isInView}
-          />
+          /> )}
+          
+         
         </motion.div>
       </section>
       <section>
         <AboutUsScreen navReff={aboutRef} />
-        <ServicesComponent />
-        <PartnersScreen />
-        <TestimonialsComponent />
+        <ServicesComponent services={services} />
+        <PartnersScreen partners={partners} />
+        <TestimonialsComponent testimonials={testimonials} />
         <SubNavComponent />
         <Footer />
       </section>
     </div>
+      
+      }
+      </div>
   );
 }

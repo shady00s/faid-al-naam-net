@@ -1,9 +1,9 @@
-import { useEffect, useRef, } from "react";
-import { useTranslations } from "next-intl";
+ import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useParams } from "next/navigation";
-export default function ServicesComponent() {
+export default function ServicesComponent({services}:[any]) {
     const animate = useAnimation()
     const refAttr = useRef<HTMLDivElement>(null)
     const mobViewRef = useRef<HTMLImageElement>(null)
@@ -12,6 +12,11 @@ export default function ServicesComponent() {
     const isEnglish = useParams().locale == "en";
     const content = useTranslations("");
 
+    const [servicesData,setServices] = useState([])
+
+    useEffect(()=>{
+        setServices(()=>services)
+    },[services])
  
 
     const handleAnimation = () => {
@@ -65,11 +70,11 @@ export default function ServicesComponent() {
             transition={{ duration: 0.3, delay: 0.23 }}
             className="p-4 flex w-full justify-center h-full sm:w-3/5 flex-wrap m-auto">
 
-            {/* {dataList.map((e: any) => <div key={e._id} className="w-[180px] flex flex-col shadow-md items-center justify-evenly m-2 rounded-md overflow-hidden object-contain h-[160px]">
+            {servicesData.map((e: any) => <div key={e._id} className="w-[180px] flex flex-col shadow-md items-center justify-evenly m-2 rounded-md overflow-hidden object-contain h-[160px]">
                 <img alt={"services images "+e._id} className="p-2 hover:scale-105 transition-transform rounded-md  " width={140} height={140} src={e.imageUrl} />
                     <span>{isEnglish?e.nameEn:e.nameAr}</span>
             
-            </div>)} */}
+            </div>)}
 
 
         </motion.div>

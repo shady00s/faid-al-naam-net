@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
-import fb from '/public/facebook-f.svg';
-import ln from '/public/linkedin-in.svg';
-import x from '/public/x.svg';
+import Link  from 'next/link';
+import fb from '/public/images/facebook-f.svg';
+import ln from '/public/images/linkedin-in.svg';
+import x from '/public/images/x.svg';
+import Image from 'next/image';
 
 interface employeeInterface {
     name: string,
@@ -30,9 +31,9 @@ export default function CardComponent({ facebookUrl, imageUrl, linkedInUrl, name
             <p className={`text-gray-800 text-sm mt-4 ${content.isEnglish?'text-start':'text-end'}`}>{summary}</p>
 
             <div className={`flex w-full  items-center mt-4 `}>
-                {facebookUrl.length > 0 ? <Link target="_blank" to={facebookUrl}> <img alt="facebook image logo" src={fb} className='m-2 cursor-pointer hover:hover:scale-110 transition-transform ' width={17} height={17} /> </Link> : null}
-                {linkedInUrl.length > 0 ? <Link target="_blank" to={linkedInUrl}> <img alt="linkedin image logo" src={ln} className='m-2 cursor-pointer hover:scale-110 transition-transform ' width={17} height={17} /> </Link> : null}
-                {xUrl.length > 0 ? <Link target="_blank" to={xUrl}>  <img alt="x image logo" src={x} className='m-2 cursor-pointer hover:scale-110 transition-transform' width={15} height={15} /> </Link> : null}
+                {facebookUrl.length > 0 ? <Link target="_blank" href={facebookUrl}> <Image alt="facebook image logo" src={fb} className='m-2 cursor-pointer hover:hover:scale-110 transition-transform ' width={17} height={17} /> </Link> : null}
+                {linkedInUrl.length > 0 ? <Link target="_blank" href={linkedInUrl}> <Image alt="linkedin image logo" src={ln} className='m-2 cursor-pointer hover:scale-110 transition-transform ' width={17} height={17} /> </Link> : null}
+                {xUrl.length > 0 ? <Link target="_blank" href={xUrl}>  <Image alt="x image logo" src={x} className='m-2 cursor-pointer hover:scale-110 transition-transform' width={15} height={15} /> </Link> : null}
 
             </div>
 

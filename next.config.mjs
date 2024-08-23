@@ -4,9 +4,19 @@ const withNextIntl = createNextIntlPlugin();
  
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images:{
-        dangerouslyAllowSVG :true
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',},      {
+          protocol: 'http',
+          hostname: 'res.cloudinary.com',
+          port: '',
+          pathname: '/**',},
+    ],
+  },
     async redirects() {
         return [
           {

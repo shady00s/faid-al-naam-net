@@ -8,7 +8,8 @@ import {
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-export default function TestimonialsComponent() {
+import imag from "/public/images/qoute.svg";
+export default function TestimonialsComponent({ testimonials }: [any]) {
   const animate = useAnimation();
   const refAttr = useRef<HTMLDivElement>(null);
   const mobViewRef = useRef<HTMLImageElement>(null);
@@ -31,20 +32,47 @@ export default function TestimonialsComponent() {
   const isEnglish = useParams().locale == "en";
 
   // useEffect(() => {
-  //     if (dataList.length > 0) {
-  //         setShowData({ index: 0, name: isEnglish ? dataList[0].nameEn : dataList[0].nameAr, testimonial: isEnglish ? dataList[0].testimonialEn : dataList[0].testimonialAr, position: isEnglish ? dataList[0].positionEn : dataList[0].positionAr })
-  //         setData({ index: 0, name: isEnglish ? dataList[0].nameEn : dataList[0].nameAr, testimonial: isEnglish ? dataList[0].testimonialEn : dataList[0].testimonialAr, position: isEnglish ? dataList[0].positionEn : dataList[0].positionAr })
+  //     if (testimonials.length > 0) {
+  //         setShowData({ index: 0, name: isEnglish ? testimonials[0].nameEn : testimonials[0].nameAr, testimonial: isEnglish ? testimonials[0].testimonialEn : testimonials[0].testimonialAr, position: isEnglish ? testimonials[0].positionEn : testimonials[0].positionAr })
+  //         setData({ index: 0, name: isEnglish ? testimonials[0].nameEn : testimonials[0].nameAr, testimonial: isEnglish ? testimonials[0].testimonialEn : testimonials[0].testimonialAr, position: isEnglish ? testimonials[0].positionEn : testimonials[0].positionAr })
   //     }
-  // }, [dataList,isInView])
+  // }, [testimonials,isInView])
+
+  const [testimonialsData, setTestimonials] = useState([]);
+
+  useEffect(() => {
+    if (testimonials.length > 0) {
+      console.log(testimonials[0].nameAr);
+      setShowData({
+        index: 0,
+        name: isEnglish ? testimonials[0].nameEn : testimonials[0].nameAr,
+        testimonial: isEnglish
+          ? testimonials[0].testimonialEn
+          : testimonials[0].testimonialAr,
+        position: isEnglish
+          ? testimonials[0].positionEn
+          : testimonials[0].positionAr,
+      });
+      setData({
+        index: 0,
+        name: isEnglish ? testimonials[0].nameEn : testimonials[0].nameAr,
+        testimonial: isEnglish
+          ? testimonials[0].testimonialEn
+          : testimonials[0].testimonialAr,
+        position: isEnglish
+          ? testimonials[0].positionEn
+          : testimonials[0].positionAr,
+      }),
+        setTestimonials(testimonials);
+    }
+  }, [testimonials]);
 
   useEffect(() => {
     if (refAttr.current) {
       animate.start("hideText").then(() => {
         setShowData(data);
-        setTimeout(() => {
-          animate.start("showText");
-        }, 100);
       });
+      animate.start("showText");
     }
   }, [data, refAttr.current]);
 
@@ -58,12 +86,14 @@ export default function TestimonialsComponent() {
 
   useEffect(() => {
     handleAnimation();
-  }, [isInView, isInMobView]);
+  }, [isInView, isInMobView, testimonialsData]);
   return (
     <section
       ref={refAttr}
       className={`${
-        3 > 0 ? "w-full min-h-screen " : "w-0 h-0 overflow-hidden "
+        testimonialsData.length > 0
+          ? "w-full min-h-screen "
+          : "w-0 h-0 overflow-hidden "
       } justify-between flex flex-col items-center bg-white`}
     >
       <div className="p-8"></div>
@@ -112,10 +142,11 @@ export default function TestimonialsComponent() {
                 className="relative left-3"
               >
                 <Image
-                  src="/images/qoute.svg"
-                  layout="fill"
+                  priority={true}
+                  src={imag}
                   alt="testimonials icon"
-                  objectFit="cover"
+                  width={30}
+                  height={30}
                 />
               </motion.div>
               <motion.span
@@ -164,9 +195,24 @@ export default function TestimonialsComponent() {
               isEnglish ? "justify-start" : "justify-end"
             }`}
           >
-            {/* {dataList.map((e: any, index) => <TestimonialButton key={e._id} animate={animate} onCLick={function (): void {
-                        setData({ index: index, name: isEnglish ? e.nameEn : e.nameAr, testimonial: isEnglish ? e.testimonialEn : e.testimonialAr, position: isEnglish ? e.positionEn : e.positionAr });
-                    }} name={isEnglish ? e.nameEn : e.nameAr} title={isEnglish ? e.positionEn : e.positionAr} testimonial={isEnglish ? e.testimonialEn : e.testimonialAr} selected={data.index == index} />)} */}
+            {testimonialsData.map((e: any, index) => (
+              <TestimonialButton
+                key={e._id}
+                animate={animate}
+                onCLick={function (): void {
+                  setData({
+                    index: index,
+                    name: isEnglish ? e.nameEn : e.nameAr,
+                    testimonial: isEnglish ? e.testimonialEn : e.testimonialAr,
+                    position: isEnglish ? e.positionEn : e.positionAr,
+                  });
+                }}
+                name={isEnglish ? e.nameEn : e.nameAr}
+                title={isEnglish ? e.positionEn : e.positionAr}
+                testimonial={isEnglish ? e.testimonialEn : e.testimonialAr}
+                selected={data.index == index}
+              />
+            ))}
           </div>
         </div>
       </div>

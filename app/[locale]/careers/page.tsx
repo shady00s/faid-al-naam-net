@@ -11,8 +11,8 @@ export default function Projects(){
     // const router = useRouter();
     // const { locale, slug } = router.query;
     // console.log(locale, slug);
-    return (<>
+    return (<div>
     <h2>{t('OurMession')}</h2>
     <Input/>
-    </>)
+    </div>)
 }

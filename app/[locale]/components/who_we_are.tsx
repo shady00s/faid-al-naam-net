@@ -1,57 +1,34 @@
+'use client';
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useCallback, useRef, useState } from "react";
 import CardComponent from "../components/card_component";
-import { useCurrentLanguage } from "../hooks/get_language";
-import Footer from "../components/footer";
-import useDataFromApiHook from "../hooks/data_fron_api";
-import NavigationComponent from "../components/navigation";
-import useLoadingScreenTrigger from "../hooks/loading_trigger";
-import SplashScreen from "../components/splash_screen";
-import { useLocation } from "react-router";
-//import { useMetaTags } from "react-metatags-hook";
-import logo from "/public/logo1.svg"
-import { Helmet } from "react-helmet";
+ import Footer from "../components/footer";
+  //import { useMetaTags } from "react-metatags-hook";
+ import { useParams } from "next/navigation";
+ import { useTranslations } from "next-intl";
 
 export default function WhoWeAreScreen() {
-    const location = useLocation();
-    useEffect(() => {
-      window.scrollTo(0, 0); // Scroll to top on every route change
-    }, [location]);
-
-
-    const { dataList } = useDataFromApiHook('employees')
-    let language = useCurrentLanguage()
+  
     const refAttr = useRef<HTMLDivElement>(null)
     const animate = useAnimation()
-
-    const [content, setContent] = useState<ContentInterface>({
-        isEnglish: false,
-        data: null,
-    });
-    const loading = useLoadingScreenTrigger()
-    const isInView = useInView(refAttr)
+    const isEnglish = useParams().locale == "en";
+    const content = useTranslations("")
+     const isInView = useInView(refAttr)
 
     const handleAnimation = useCallback(() => {
-        if ( content.data) {
+        if (isInView) {
             animate.start("visible")
         } else {
             animate.start("hidden")
         }
-    }, [content.data,loading,isInView])
-    useEffect(() => {
-        if (language) {
-            setContent({
-                isEnglish: language.type === "en",
-                data: language.value,
-            });
-        }
-    }, [language]);
+    }, [isInView])
+
 
 
 
     useEffect(() => {
         handleAnimation()
-    }, [isInView, content.data,loading])
+    }, [isInView])
 
 
 
@@ -60,7 +37,7 @@ export default function WhoWeAreScreen() {
     //       title: content?.data?.WhoWeAre ??"",
     //       description: content?.isEnglish?"Meet the passionate team behind Faid Al-Naam": 'تعرف على الفريق وراء فيض النعم',
     //       charset: "utf8",
-    //       lang: content.isEnglish?"en":"ar",
+    //       lang: isEnglish?"en":"ar",
     //       openGraph: {
     //         title: content.data?.WhoWeAre,
     //         image: logo,
@@ -76,11 +53,10 @@ export default function WhoWeAreScreen() {
         
     //     [content.data]
     //   );
-    const contactUs = loading ?content.isEnglish? 'Loading':'جاري التحميل' : content?.data?.WhoWeAre || '';
-    const companyName = content?.data?.companyName || '';
+
 
     return <>         
-    <Helmet>
+    {/* <Helmet>
         <link rel="icon" type="image/svg+xml" href={logo} />
         <meta charSet="utf-8" />
         <title>{`${contactUs} | ${companyName}`}</title>
@@ -112,17 +88,15 @@ export default function WhoWeAreScreen() {
           }
         />
         <meta name="twitter:image" content={logo} />
-      </Helmet>
+      </Helmet> */}
     
     
-    {loading ? <SplashScreen /> : <>
-    <div ref={refAttr} className="shrink-0  h-auto w-full overflow-hidden">
-        <NavigationComponent />
-
-        <section id="who_we_are" className={` w-screen min-h-[100vh] overflow-x-auto overflow-y-hidden flex flex-col bg-white ${content.isEnglish ? "items-start" : "items-end"}`}>
+     <div ref={refAttr} className="shrink-0  h-auto w-full overflow-hidden">
+ 
+        <section id="who_we_are" className={` w-screen min-h-[100vh] overflow-x-auto overflow-y-hidden flex flex-col bg-white ${isEnglish ? "items-start" : "items-end"}`}>
 
               
-                    <div className={` flex flex-col p-8 ${content.isEnglish ? "items-start" : "items-end"} w-full`}>
+                    <div className={` flex flex-col p-8 ${isEnglish ? "items-start" : "items-end"} w-full`}>
                         <div className="p-8"></div>
 
                         <header className={` flex flex-col p-8 items-center justify-center w-full`}>
@@ -143,7 +117,7 @@ export default function WhoWeAreScreen() {
                                 initial="hidden"
                                 animate={animate}
                                 transition={{ duration: 0.3, delay: 0.15 }}
-                                className={`text-base pb-4 ${content.isEnglish?"text-left":"text-right"}`}>{content.data?.aboutUsSubTitle??''}</motion.h2>
+                                className={`text-base pb-4 ${isEnglish?"text-left":"text-right"}`}>{content.data?.aboutUsSubTitle??''}</motion.h2>
                         </header>
 
                     </div>
@@ -158,7 +132,7 @@ export default function WhoWeAreScreen() {
                         transition={{ duration: 0.3, delay: 0.13 }}
 
                         className="p-1 md:p-3 max-w-[1080px]  justify-center  items-start flex md:w-4/5 flex-wrap m-auto w-full">
-                        {dataList.map((e) => <CardComponent key={e._id} name={content.isEnglish ? e.nameEn : e.nameAr} imageUrl={e.imageUrl} title={content.isEnglish ? e.titleEn : e.titleAr} facebookUrl={e.facebookUrl} linkedInUrl={e.linkedInUrl} xUrl={e.xUrl} summary={content.isEnglish ? e.summaryEn : e.summaryAr} content={content} />)}
+                        {/* {dataList.map((e) => <CardComponent key={e._id} name={isEnglish ? e.nameEn : e.nameAr} imageUrl={e.imageUrl} title={isEnglish ? e.titleEn : e.titleAr} facebookUrl={e.facebookUrl} linkedInUrl={e.linkedInUrl} xUrl={e.xUrl} summary={isEnglish ? e.summaryEn : e.summaryAr} content={content} />)} */}
 
                     </motion.div>
 
@@ -171,7 +145,7 @@ export default function WhoWeAreScreen() {
 
         <Footer />
     </div>
-    </>}
+     
 
 
     </> 

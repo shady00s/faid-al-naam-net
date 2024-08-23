@@ -1,11 +1,12 @@
 import { useTranslations } from "next-intl";
-import Input from "../components/input";
-import { Metadata } from "next";
+ import { Metadata } from "next";
+import ProjectsScreen from "../components/projects";
 
 export async function generateMetadata({
   params: { locale },
 }: any): Promise<Metadata> {
   return {
+    metadataBase:new URL('http://localehost:3000'),
     alternates: {
         canonical: '/',
         languages: {
@@ -20,7 +21,7 @@ export async function generateMetadata({
 
     title:
       locale === "en"
-        ? "Faid Al-Naam For Food Security | Projects"
+        ? "Projects | Faid Al-Naam For Food Security"
         : " المشاريع | فيض النعم للامن الغذائي",
     description:
       locale === "en"
@@ -61,12 +62,16 @@ export async function generateMetadata({
     },
   };
 }
-export default function Projects() {
+export default  function Projects() {
   const t = useTranslations("");
+  // const res = await fetch(
+  //   `http://localhost:3000/api/projects`
+  // );
+  // const data = await res.json();
   return (
-    <>
-      <h2>{t("OurMession")}</h2>
-      <Input />
-    </>
+    <div>
+          <ProjectsScreen/>
+
+    </div>
   );
 }

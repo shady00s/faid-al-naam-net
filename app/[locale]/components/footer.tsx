@@ -1,8 +1,9 @@
- import SetLanguageComponent from "./set_language";
-import { useState, useEffect } from "react";
+'use client';
+
+import SetLanguageComponent from "./set_language";
  import Link from "next/link";
 import Image from "next/image";
-
+import img from '/public/images/main-logo.svg'
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 export default function Footer() {
@@ -19,8 +20,10 @@ export default function Footer() {
         <div className="w-[10rem] flex justify-center items-center h-full">
           <Link href="/">
             <Image
+                          priority={true}
+
               alt="faid al naam image"
-              src="/images/main-logo.svg"
+              src={img}
               width="80"
               height="80"
               className="p-1  h-16"

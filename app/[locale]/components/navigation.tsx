@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import logo from '/public/images/main-logo.svg'
 import { motion, useAnimation } from "framer-motion";
 import useWindowSize from "../hooks/window-size";
 
- import MobileNavComponent from "./mob_navigation";
- import SetLanguageComponent from "./set_language";
+import MobileNavComponent from "./mob_navigation";
+import SetLanguageComponent from "./set_language";
 import Link from "next/link";
 
 import { useParams } from "next/navigation";
@@ -14,56 +15,60 @@ import { useEffect, useState } from "react";
 
 const NavigationComponent: React.FC = () => {
   const animate = useAnimation();
-  const isEnglish = useParams().locale == "en";
-  const currentLang = useParams().locale;
+  let params =  useParams().locale; 
+  const isEnglish =params == "en";
+  const currentLang = params;
   const langVal = useTranslations("");
-  const { width } = useWindowSize()
+  const { width } = useWindowSize();
 
   const [currentLocation, setCurrentLocation] = useState("/");
-
-
+  const regex = /^\/ar\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
+  
   useEffect(() => {
     getActiveLink(window.location.pathname);
   });
 
   useEffect(() => {
-      if(width > 950 ){
-        animate.start( 'show')
-        animate.start( 'hideMob')
-        
-      }
-      else{
-        animate.start('hide')
-        animate.start( 'showMob')
-
-      }
-
-}, [width])
+    if (width > 950) {
+      animate.start("show");
+      animate.start("hideMob");
+    } else {
+      animate.start("hide");
+      animate.start("showMob");
+    }
+  }, [width]);
   function getActiveLink(link: string) {
-    switch (link) {
-      case "/" + currentLang:
-        setCurrentLocation("/");
-        break;
-      case "/" + currentLang + "/our-team":
-        setCurrentLocation("/our-team");
-        break;
-      case "/" + currentLang + "/contact-us":
-        setCurrentLocation("/contact-us");
-        break;
-      case "/" + currentLang + "/careers":
-        setCurrentLocation("/careers");
-        break;
-      case "/" + currentLang + "/projects":
-        console.log("asdasd");
+    console.log(link,regex.test(link));
+    if(regex.test(link)){
+      setCurrentLocation("/projects");
 
-        setCurrentLocation("/projects");
-        break;
-      default:
-        setCurrentLocation("/");
-        break;
+    }
+    else{
+      switch (link) {
+        case "/" + currentLang:
+          setCurrentLocation("/");
+          break;
+        case "/" + currentLang + "/our-team":
+          setCurrentLocation("/our-team");
+          break;
+        case "/" + currentLang + "/contact-us":
+          setCurrentLocation("/contact-us");
+          break;
+        case "/" + currentLang + "/careers":
+          setCurrentLocation("/careers");
+          break;
+          case "/" + currentLang + "/projects":
+          setCurrentLocation("/projects");
+          break;
+          case "/" + currentLang + "/projects/":
+          setCurrentLocation("/projects");
+          break;
+         
+      }
+
     }
   }
- 
+
   return (
     <div>
       <motion.nav
@@ -83,13 +88,17 @@ const NavigationComponent: React.FC = () => {
         justify-between
         flex w-screen bg-black h-20 drop-shadow-lg `}
       >
-        <Link href="/" onClick={()=>{
-                setCurrentLocation("/");
-
-        }}>
+        <Link
+          href="/"
+          onClick={() => {
+            setCurrentLocation("/");
+          }}
+        >
           <Image
+                        priority={true}
+
             alt="faid al naam image"
-            src="/images/main-logo.svg"
+            src={logo}
             width="80"
             height="80"
             className="p-1  h-16"
@@ -191,11 +200,9 @@ const NavigationComponent: React.FC = () => {
         animate={animate}
         transition={{ duration: 0.3 }}
       >
-
-          <MobileNavComponent isEnglish={isEnglish} langVal={langVal} />
-
+        <MobileNavComponent isEnglish={isEnglish} langVal={langVal} />
       </motion.div>
-      </div>
+    </div>
   );
 };
 

@@ -4,7 +4,7 @@ import NavigationComponent from "../components/navigation";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
  
-export default function PartnersScreen() {
+export default function PartnersScreen({partners}:[any]) {
     const refAttr1 = useRef<HTMLDivElement>(null)
     const animate = useAnimation()
     const mobViewRef = useRef<HTMLDivElement>(null)
@@ -13,7 +13,12 @@ export default function PartnersScreen() {
     const content = useTranslations("");
     const isEnglish = useParams().locale == "en";
 
+    const [partnersData,setPartners] = useState([])
 
+    useEffect(()=>{
+        setPartners(()=>partners)
+    },[partners])
+ 
 
     const handleAnimation = useCallback(() => {
         if (isInView) {
@@ -72,9 +77,9 @@ export default function PartnersScreen() {
                     transition={{ duration: 0.3, delay: 0.43 }}
                     className="p-4 max-w-[1080px] flex w-full justify-center h-full lg:w-4/5 flex-wrap m-auto">
 
-                    {/* {dataList.map((e: any) => <div key={e._id} className="md:w-[250px] w-full m-3 rounded-md flex justify-center items-center overflow-hidden object-cover h-[160px]">
+                    {partnersData.map((e: any) => <div key={e._id} className="md:w-[250px] w-full m-3 rounded-md flex justify-center items-center overflow-hidden object-cover h-[160px]">
                         <img alt={"partiners images "+e._id} className="p-2  hover:scale-105 w-full object-contain transition-transform rounded-md  " src={e.imageUrl} />
-                    </div>)} */}
+                    </div>)} 
 
 
                 </motion.div>

@@ -3,7 +3,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-
+import mission from "/public/images/mission.svg"
 interface aboutUsInterface {
   navReff: Ref<HTMLDivElement>;
 }
@@ -93,7 +93,9 @@ export default function MessionScreen({ navReff }: aboutUsInterface) {
 
           >
             <Image
-              src="/images/mission.svg"
+                          priority={true}
+
+              src={mission}
               alt="our mission image"
               fill={true}
               className=" object-cover "

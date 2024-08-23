@@ -1,11 +1,10 @@
 'use client';
+import Error from 'next/error';
 
 export default function NotFound() {
-  return (
-    <html>
-      <body className='text-center'>
-        <h1 className='mt-10 font-semibold'>Something went wrong!</h1>
-      </body>
-    </html>
-  );
+    return  
+    <div>
+       <Error statusCode={404} />;
+    </div>
+
 }
