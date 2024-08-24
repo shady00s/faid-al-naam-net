@@ -14,6 +14,7 @@ import phone from '/public/images/phone.svg';
 import location from '/public/images/location.svg';
 import Link from "next/link";
 import { instance } from "@/app/utils/axios";
+
 export default function ContactUsScreen() {
   const animate = useAnimation();
   const refAttr = useRef<HTMLDivElement>(null);
