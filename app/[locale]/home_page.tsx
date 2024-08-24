@@ -101,7 +101,7 @@ import TestimonialsComponent from "./components/testimonials";
 
     <div className="relative h-full"> 
        <div
-         className="absolute top-[13%] w-12 bg-green z-10"
+         className="absolute top-[53%] h-12 w-full  z-10"
          ref={refAttr}
        ></div>
       {isLoading? <SplashScreen/> : 

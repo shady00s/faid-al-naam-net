@@ -52,18 +52,18 @@ const ProjectCardComponent: FC<ProjectCardInterface> = function ({ imagePath, ti
 
     return (
         <Link href={`/${useParams().locale}/projects/${title.replace(" ","-")}`}>
-        <div id="projectCard" onClick={() => { onClick() }} className=" md:max-w-[324px]  hover:mx-1 cursor-pointer w-[85vw] shadow-md  overflow-hidden   transition-all  m-2  h-[26rem] rounded-md bg-white">
+        <div id="projectCard" onClick={() => { onClick() }} className=" md:max-w-[312px]   cursor-pointer w-[84vw] shadow-md  overflow-hidden   transition-all  m-2  h-[26rem] rounded-md bg-white">
             <img alt={"project background image"+image} src={`${imagePath.find((e: string) => !youtubeRegex.test(e))}`} ref={mainImageRef}  className="w-full h-[52%] rounded-md object-cover" />
             <div className={`p-1 flex flex-col ${isEnglish ? "items-start" : "items-end"} w-full`}>
-                <h1 className={` font-semibold mx-2 w-[312px] overflow-hidden break-words  h-[3.5rem] text-ellipsis ${isEnglish?'text-start':'text-end'}`}>{title}</h1>
+                <h1 className={` font-semibold mx-2 w-[302px] overflow-hidden break-words  h-[3.5rem] text-ellipsis ${isEnglish?'text-start':'text-end'}`}>{title}</h1>
                 <div className={`flex mt-2 w-full justify-between  mx-1 ${isEnglish ? "items-start" : "items-end"}`}>
                     <div className="w-[43%] h-full">
                         <ProjectProgressComponent percentage={percentage} endDate={endDate} startDate={startDate} isEnglish={isEnglish} />
 
                     </div>
-                    <div className={`h-[5.4rem] w-[57%] mx-2 `}>
+                    <div className={`h-[5.4rem] w-[53%] mx-2 `}>
 
-                        <p className={`w-full h-full text-[0.81rem] `} style={{
+                        <p className={`w-full h-full text-[0.80rem] `} style={{
                             display: 'block',
                             wordWrap: 'break-word',
                             overflow: 'hidden',

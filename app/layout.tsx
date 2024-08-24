@@ -75,6 +75,10 @@ export default async function RootLayout({
  
   return (
     <html lang={locale}>
+      <head>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+        </head>
       <body className={inter.className}>
         <main>{children}</main>
       </body>
