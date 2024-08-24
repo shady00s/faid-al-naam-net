@@ -31,8 +31,8 @@ export async function generateMetadata({
         },
       },
     icons: {
-      icon: "/images/logo1.svg",
-      shortcut: "/images/logo1.svg",
+      icon: "../../../public/images/logo1.svg",
+      shortcut: "../../../public/images/logo1.svg",
     },
 
     title:

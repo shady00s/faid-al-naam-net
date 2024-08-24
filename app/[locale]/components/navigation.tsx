@@ -23,8 +23,6 @@ const NavigationComponent: React.FC = () => {
   const regex = /^\/ar\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
   
   useEffect(() => {
-    console.log(window.location.pathname);
-    console.log(params)
     getActiveLink(window.location.pathname);
   });
 

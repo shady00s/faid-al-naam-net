@@ -1,10 +1,10 @@
   import { Metadata } from "next";
 import ProjectsScreen from "../components/projects";
-import img from '/public/images/logo1.svg'
-
+ 
 export async function generateMetadata({
   params: { locale },
 }: any): Promise<Metadata> {
+ 
   return {
     metadataBase:new URL('http://localehost:3000'),
     alternates: {
@@ -15,8 +15,8 @@ export async function generateMetadata({
         },
       },
     icons: {
-      icon: img,
-      shortcut: img,
+      icon: "../../public/images/logo11.svg",
+      shortcut: "../../public/images/logo11.svg",
     },
 
     title:
@@ -38,7 +38,7 @@ export async function generateMetadata({
           ? "Discover Fiyad Al-Ni'am's projects in Egypt in land reclamation and animal production"
           : " تعرف على مشاريع فيض النعم فى مصر فى الاستصلاح الزراعى والانتاج الحيوانى.",
       images: {
-        url: img,
+        url: "../../public/images/logo1.svg",
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
@@ -47,7 +47,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       images: {
-        url: img,
+        url: "../../public/images/logo1.svg",
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
