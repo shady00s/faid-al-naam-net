@@ -3,7 +3,6 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useCallback, useRef, useState } from "react";
   import Footer from "../components/footer";
-import instance from "../../utils/axios";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import Image from "next/image";
