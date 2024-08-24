@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { FC } from "react";
@@ -18,7 +20,7 @@ interface progressInterface {
     isEnglish:boolean
 }
 
-function ProjectProgressComponent({ percentage, endDate, startDate ,isEnglish}: progressInterface) {
+function ProjectServerProgressComponent({ percentage, endDate, startDate ,isEnglish}: progressInterface) {
 
      
     return (
@@ -62,7 +64,7 @@ const ProjectCardServerSideComponent: FC<ProjectCardInterface> = function ({ ima
                 <h1 className={` font-semibold mx-2 w-[312px] overflow-hidden break-words  h-[3.5rem] text-ellipsis ${isEnglish?'text-start':'text-end'}`}>{title}</h1>
                 <div className={`flex mt-2 w-full justify-between  mx-1 ${isEnglish ? "items-start" : "items-end"}`}>
                     <div className="w-[43%] h-full">
-                        <ProjectProgressComponent percentage={percentage} endDate={endDate} startDate={startDate} isEnglish={isEnglish} />
+                        <ProjectServerProgressComponent percentage={percentage} endDate={endDate} startDate={startDate} isEnglish={isEnglish} />
 
                     </div>
                     <div className={`h-[5.4rem] w-[57%] mx-2 `}>
