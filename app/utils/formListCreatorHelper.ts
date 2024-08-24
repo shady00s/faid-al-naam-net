@@ -21,7 +21,10 @@ export default async function formListCreatorHelper({
       form.append(mediaUrls.name, mediaUrls.value[index])
     }
   }
-  for (const [key, value] of form.entries()) {
+  const entries = Array.from(form.entries());
+
+  entries.forEach(async([key, value]) => {
+
     let keyWithoutNumber = keyNumberValidator(key)
     if (keyWithoutNumber.search('List') != -1 || keyWithoutNumber.search('Media') != -1) {
       if (value != '') {
@@ -50,7 +53,7 @@ export default async function formListCreatorHelper({
 
     }
 
-  }
+  })
   const newForm = new FormData()
   mergedListForm.forEach((value, key) => {
 
