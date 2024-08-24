@@ -20,6 +20,7 @@ const dataList = useGetData('careers');
   const content = useTranslations("")
   const isInView = useInView(refAttr);
   const isCareerInView = useInView(careersRef);
+  let params = useParams().locale;
 const isEnglish = useParams().locale == "en";
   const { width } = useWindowSize();
   const [closed, setIsClosed] = useState<boolean>(false);
@@ -281,7 +282,7 @@ const isEnglish = useParams().locale == "en";
                           {content("didntFindJobP")}
                         </p>
                         <Link
-                           href={{pathname:"/upload-resume", query: { availableJob: 'false' }}}
+                           href={{pathname:`/${params}/upload-resume`, query: { availableJob: 'false' }}}
                           className="p-2 mt-6 bg-red-500  text-white"
                         >
                           {content("UploadYourResume")}
@@ -294,7 +295,8 @@ const isEnglish = useParams().locale == "en";
 
                       <p className="w-4/5 text-center">{content("NoCareersP")}</p>
                       <Link
-                         href={{pathname:"/upload-resume",
+ 
+                         href={{pathname:`/${params}/upload-resume`,
                           query: { name: 'test' },}  }
                         className="p-2 mt-6 bg-red-500  text-white"
                       >
