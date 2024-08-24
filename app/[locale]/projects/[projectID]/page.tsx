@@ -130,7 +130,7 @@ export default async function Page({
       <div className="h-12"></div>
 
       <div className={`flex flex-col ${isEnglish?"justify-end":"items-end"}`}>
-        <ProjectDetailsTitle title={content("target")} isEnglish={isEnglish} />
+        <ProjectDetailsTitle title={content("steps")} isEnglish={isEnglish} />
         <div className='h-5'></div>
         <ProjectDetailsIndecator isEnglish={isEnglish} numberOfTodos={data.project.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)
         )}/>
@@ -143,7 +143,7 @@ export default async function Page({
       <div className="h-24"></div>
       <div className="h-12"></div>
       <div className={"flex flex-col"}>
-      <ProjectDetailsTitle title={content("target")} isEnglish={isEnglish} />
+      <ProjectDetailsTitle title={content("media")} isEnglish={isEnglish} />
       <div className={"w-full  flex justify-center flex-wrap p-4"}>
         {data.project.media.map((e:string)=>  youtubeRegex.test(e)? 
         <iframe
@@ -162,7 +162,7 @@ export default async function Page({
       <div className="h-24"></div>
       <div className="h-12"></div>
       <div  className={`flex flex-col `}>
-        <ProjectDetailsTitle title={content("target")} isEnglish={isEnglish} />
+        <ProjectDetailsTitle title={content("seeAlso")} isEnglish={isEnglish} />
         <div className={`flex items-center h-full m-auto w-[90%] content-center flex-wrap ${isEnglish?"justify-start":"justify-end"}`} >
                        {data.projects.map((e:any) => (
                               <ProjectCardServerSideComponent
