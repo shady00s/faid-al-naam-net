@@ -3,8 +3,7 @@ import axios from "axios"
 
 
 const instance = axios.create({
-    //'https://faid-al-naam-server.onrender.com/'
-    baseURL:   'http://localhost:3000/',
+    baseURL:  process.env.NODE_ENV === "production"? process.env.BASE_URL :'http://localhost:3000/',
     withCredentials: false,
     
     headers: {
@@ -13,8 +12,7 @@ const instance = axios.create({
 })
 
 const instance2 = axios.create({
-    //'https://faid-al-naam-server.onrender.com/'
-    baseURL:   'https://faid-al-naam-server.onrender.com/',
+    baseURL:   process.env.DASHBOARD_BASE_URL,
     withCredentials: false,
     
     headers: {

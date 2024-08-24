@@ -1,5 +1,4 @@
 import MongoManager from "@/app/utils/mongo";
-import { ObjectIdLike } from "bson";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 

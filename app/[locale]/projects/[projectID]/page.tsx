@@ -4,10 +4,10 @@ import ProjectDetailsTodo from "../../components/project_details_todos"
 import ProjectDetailsIndecator from "../../components/project_details_indicator";
 import Footer from "../../components/footer";
 import Image from "next/image";
-import { ProjectCardServerSideComponent } from "../../components/project_card_component";
-import contactUs from '/public/images/contactUsImage.svg';
+ import contactUs from '/public/images/contactUsImage.svg';
 import Link from 'next/link'
 import { Metadata } from "next";
+import ProjectCardServerSideComponent from "../../components/project_card_component_server";
 
 export async function generateMetadata({
   params: { locale,projectID
@@ -92,7 +92,7 @@ export default async function Page({
   const decodedArabic = decodeURIComponent(params.projectID);
   const isEnglish = params.locale == "en";
   const res = await fetch(
-    `http://localhost:3000/api/projectDetails?projectID=${decodedArabic}`
+    `${process.env.BASE_URL}/api/projectDetails?projectID=${decodedArabic}`
   );
 
   const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
