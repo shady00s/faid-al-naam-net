@@ -73,7 +73,7 @@ const isEnglish = useParams().locale == "en";
                 isEnglish ? "items-start" : "items-end"
               }`}
             >
-               <div ref={refAttr}  className=" h-56 absolute" />
+               <div ref={refAttr}  className=" h-64 absolute top-10" />
 
               { dataList && dataList?.careers? 
 <>

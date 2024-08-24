@@ -1,7 +1,6 @@
  import { Metadata } from "next";
  import CareersScreen from '../components/careers'
- import img from '/public/images/logo1.svg'
- export async function generateMetadata({
+  export async function generateMetadata({
   params: { locale },
 }: any): Promise<Metadata> {
   return {
@@ -14,8 +13,8 @@
         },
       },
     icons: {
-      icon: img,
-      shortcut: img,
+      icon: "../../../public/images/logo1.svg",
+      shortcut: "../../../public/images/logo1.svg",
     },
 
     title:
@@ -46,7 +45,7 @@
     twitter: {
       card: "summary_large_image",
       images: {
-        url: img,
+        url: "../../../public/images/logo1.svg",
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
