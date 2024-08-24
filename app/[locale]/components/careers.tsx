@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
  import useGetData from "@/app/utils/getData";
  import SplashScreen from './splash_screen'
  export default function CareersScreen() {
-const dataList = useGetData('careers','',''); 
+const dataList = useGetData('careers'); 
     const refAttr = useRef<HTMLDivElement>(null);
   const careersRef = useRef<HTMLDivElement>(null);
   const animate = useAnimation();

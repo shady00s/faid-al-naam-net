@@ -9,7 +9,7 @@ import CardComponent from "../components/card_component";
 import useGetData from "@/app/utils/getData";
 
 export default function WhoWeAreScreen() {
-    const employees = useGetData('employees','','');
+    const employees = useGetData('employees');
     const refAttr = useRef<HTMLDivElement>(null)
     const animate = useAnimation()
     const isEnglish = useParams().locale == "en";

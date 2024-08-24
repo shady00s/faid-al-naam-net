@@ -13,6 +13,7 @@ import envelope from '/public/images/envelope.svg';
 import phone from '/public/images/phone.svg';
 import location from '/public/images/location.svg';
 import Link from "next/link";
+import { instance } from "@/app/utils/axios";
 export default function ContactUsScreen() {
   const animate = useAnimation();
   const refAttr = useRef<HTMLDivElement>(null);
@@ -54,68 +55,10 @@ export default function ContactUsScreen() {
         console.log(err);
       });
   }
-
-  // useMetaTags(
-  //     {
-  //       title: content?.data?.callUs ??"",
-  //       description: content?.isEnglish?"Buying or need more information? Visit us or send your inquiry for your assistance.": 'هل ترغب بالشراء أم تحتاج إلى مزيد من المعلومات؟ تفضل بزيارة متجرنا أو أرسل استفسارك لمساعدتك',
-  //       charset: "utf8",
-  //       lang: content.isEnglish?"en":"ar",
-  //       openGraph: {
-  //         title: content.data?.partners,
-  //         image: logo,
-  //         site_name: "Faid Al Naam",
-  //       },
-  //       twitter: {
-  //         card:  content?.isEnglish?"Buying or need more information? Visit us or send your inquiry for your assistance.": 'هل ترغب بالشراء أم تحتاج إلى مزيد من المعلومات؟ تفضل بزيارة متجرنا أو أرسل استفسارك لمساعدتك',
-  //         creator: "@you",
-  //         title:content?.data?.callUs??"",
-  //       },
-
-  //     },
-
-  //     [content.data]
-  // //   );
-  // const contactUs = loading ?content.isEnglish? 'Loading':'جاري التحميل' : content?.data?.callUs || '';
-  // const companyName = content?.data?.companyName || '';
+ 
   return (
     <div className="shrink-0   h-auto w-full overflow-hidden">
-      {/* <Helmet>
-        <link rel="icon" type="image/svg+xml" href={logo} />
-        <meta charSet="utf-8" />
-        <title>{`${contactUs} | ${companyName}`}</title>
-        <link rel="canonical" href="https://faid-el-neam.vercel.app/contact-us" />
-        <meta
-          name="description"
-          content={
-            content?.isEnglish?"Buying or need more information? Visit us or send your inquiry for your assistance.":
-             'هل ترغب بالشراء أم تحتاج إلى مزيد من المعلومات؟ تفضل بزيارة متجرنا أو أرسل استفسارك لمساعدتك'
-          }
-        />
-        <meta
-          property="og:url"
-          content="https://faid-el-neam.vercel.app/contact-us"
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Faid Al Naam" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="faid-el-neam.vercel.app" />
-        <meta
-          property="twitter:url"
-          content="https://faid-el-neam.vercel.app/contact-us"
-        />
-        <meta name="twitter:title" content={content?.data?.callUs ?? ""} />
-        <meta
-          name="twitter:description"
-          content={
-            content?.isEnglish?"Buying or need more information? Visit us or send your inquiry for your assistance.":
-             'هل ترغب بالشراء أم تحتاج إلى مزيد من المعلومات؟ تفضل بزيارة متجرنا أو أرسل استفسارك لمساعدتك'
-          }
-        />
-        <meta name="twitter:image" content={logo} />
-      </Helmet> */}
-
+    
       <section
         ref={refAttr}
         id="contact-us"
