@@ -5,6 +5,80 @@ import ProjectDetailsIndecator from "../../components/project_details_indicator"
 import Footer from "../../components/footer";
 import Image from "next/image";
 import { ProjectCardServerSideComponent } from "../../components/project_card_component";
+import contactUs from '/public/images/contactUsImage.svg';
+import Link from 'next/link'
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params: { locale,projectID
+  },
+}: any): Promise<Metadata> {
+  const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+
+  const decodedArabic = decodeURIComponent(projectID);
+   const res = await fetch(
+    `http://localhost:3000/api/projectDetails?projectID=${decodedArabic}`
+  );
+  const data = await res.json();
+
+  return {
+    metadataBase:new URL('http://localehost:3000'),
+    alternates: {
+        canonical: '/',
+        languages: {
+          'en-US': '/en-US',
+          'ar-AR': '/ar-AR',
+        },
+      },
+    icons: {
+      icon: "/images/logo1.svg",
+      shortcut: "/images/logo1.svg",
+    },
+
+    title:
+      locale === "en"
+        ? data.project.projectNameEn
+        : data.project.projectNameAr,
+    description:
+      locale === "en"
+      ? data.project.discreptionEn
+      : data.project.discreptionAr,
+    // Open Graph properties
+    openGraph: {
+      title:
+      locale === "en"
+        ? data.project.projectNameEn
+        : data.project.projectNameAr,
+    description:
+      locale === "en"
+      ? data.project.discreptionEn
+      : data.project.discreptionAr,
+      images: {
+        url: data.project.media.filter((e:string)=> youtubeRegex.test(e))[0],
+        alt: "Faid Al-Naam For Food Security",
+        type: "image/svg",
+      },
+    },
+    // Twitter Card properties
+    twitter: {
+      card: "summary_large_image",
+      images: {
+        url: data.project.media.filter((e:string)=> youtubeRegex.test(e))[0],
+        alt: "Faid Al-Naam For Food Security",
+        type: "image/svg",
+      },
+      title:
+      locale === "en"
+        ? data.project.projectNameEn
+        : data.project.projectNameAr,
+    description:
+      locale === "en"
+      ? data.project.discreptionEn
+      : data.project.discreptionAr,
+    },
+  };
+}
+
 
 export default async function Page({
   params,
@@ -61,20 +135,38 @@ export default async function Page({
         <ProjectDetailsIndecator isEnglish={isEnglish} numberOfTodos={data.project.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)
         )}/>
         <div className='h-5'></div>
-        {isEnglish? data.project.projectStepsEn.map((e:any,index:number)=> <ProjectDetailsTodo key={index} isEnglish={isEnglish} title={e.step} 
+        {isEnglish? data.project.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)).map((e:any,index:number)=> <ProjectDetailsTodo key={index} isEnglish={isEnglish} title={e.step} 
         isFinished={e.status}/>):
-        data.project.projectStepsAr.map((e:any,index:number)=> 
+        data.project.projectStepsAr.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)).map((e:any,index:number)=> 
         <ProjectDetailsTodo key={index} isEnglish={isEnglish} title={e.step} isFinished={e.status}/>)}
       </div>
+      <div className="h-24"></div>
+      <div className="h-12"></div>
+      <div className={"flex flex-col"}>
+      <ProjectDetailsTitle title={content("target")} isEnglish={isEnglish} />
+      <div className={"w-full  flex justify-center flex-wrap p-4"}>
+        {data.project.media.map((e:string)=>  youtubeRegex.test(e)? 
+        <iframe
+        key={e} 
+        className="m-1 w-full  md:w-2/5   h-[20rem] md:h-[21rem]"
+         src={e.replace("watch?v=","embed/")} 
+         title="" 
+         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          ></iframe>
+        :<Image 
+        key={e}
+        className="m-1" src={e} width={1000} height={1000} alt={"project image"}/>)}
+
+      </div>
+        </div>
       <div className="h-24"></div>
       <div className="h-12"></div>
       <div  className={`flex flex-col `}>
         <ProjectDetailsTitle title={content("target")} isEnglish={isEnglish} />
         <div className={`flex items-center h-full m-auto w-[90%] content-center flex-wrap ${isEnglish?"justify-start":"justify-end"}`} >
-                       {data.projects.map((e:any,index:number) => (
+                       {data.projects.map((e:any) => (
                               <ProjectCardServerSideComponent
-                              key={index}
-                              isEnglish={isEnglish}
+                               isEnglish={isEnglish}
                                 key={e._id}
                                 imagePath={e.media}
                                 title={isEnglish? e.projectNameEn : e.projectNameAr}
@@ -87,7 +179,27 @@ export default async function Page({
                       </div>
       </div>
       <div className="h-24"></div>
-
+      <div className="flex justify-center  relative items-center flex-col w-full h-[28rem]">
+                <Image
+                  priority={true}
+                  alt="sub nav image"
+                  src={contactUs}
+                  style={{ objectFit: "cover" }}
+                  className="  bg-no-repeat bg-center "
+                  fill={true}
+                />
+                <h1 className="text-4xl font-bold text-white mb-3 z-20">
+                  {isEnglish ? "Ready to get started?" : "جاهز للبدء؟"}
+                </h1>
+                <Link
+                  style={{ backgroundColor: "rgba(0,19,85,0.56) " }}
+                  className="py-3 px-2 z-20 m-1 cursor-pointer rounded-md  hover:text-white  text-sm font-bold text-gray-200 border-2  transition-all"
+                  href={"/contact-us"}
+                >
+                  <h4>{content("subNavContactUs")}</h4>
+                </Link>
+              </div>
+ 
       <Footer/>
     </section>
   );

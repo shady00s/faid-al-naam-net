@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { ProjectBackgroundContext, ProjectDetailsContext } from "../context/project";
+import { ProjectBackgroundContext } from "../context/project";
 import Link from 'next/link';
 import { useParams } from "next/navigation";
 
@@ -52,10 +52,10 @@ const ProjectCardComponent: FC<ProjectCardInterface> = function ({ imagePath, ti
 
     return (
         <Link href={`/${useParams().locale}/projects/${title.replace(" ","-")}`}>
-        <div id="projectCard" onClick={() => { onClick() }} className=" md:max-w-[334px] cursor-pointer w-[85vw] shadow-md  overflow-hidden  hover:mx-3  transition-all  m-2  h-[26rem] rounded-md bg-white">
+        <div id="projectCard" onClick={() => { onClick() }} className=" md:max-w-[324px]  hover:mx-1 cursor-pointer w-[85vw] shadow-md  overflow-hidden   transition-all  m-2  h-[26rem] rounded-md bg-white">
             <img alt={"project background image"+image} src={`${imagePath.find((e: string) => !youtubeRegex.test(e))}`} ref={mainImageRef}  className="w-full h-[52%] rounded-md object-cover" />
             <div className={`p-1 flex flex-col ${isEnglish ? "items-start" : "items-end"} w-full`}>
-                <h1 className={` font-semibold mx-2 w-[322px] overflow-hidden break-words  h-[3.5rem] text-ellipsis ${isEnglish?'text-start':'text-end'}`}>{title}</h1>
+                <h1 className={` font-semibold mx-2 w-[312px] overflow-hidden break-words  h-[3.5rem] text-ellipsis ${isEnglish?'text-start':'text-end'}`}>{title}</h1>
                 <div className={`flex mt-2 w-full justify-between  mx-1 ${isEnglish ? "items-start" : "items-end"}`}>
                     <div className="w-[43%] h-full">
                         <ProjectProgressComponent percentage={percentage} endDate={endDate} startDate={startDate} isEnglish={isEnglish} />
@@ -90,10 +90,10 @@ const ProjectCardServerSideComponent: FC<ProjectCardInterface> = function ({ ima
 
     return (
         <Link href={`/${useParams().locale}/projects/${title.replace(" ","-")}`}>
-        <div id="projectCard"  className=" md:max-w-[334px] cursor-pointer w-[85vw] shadow-md  overflow-hidden  hover:mx-3  transition-all  m-2  h-[26rem] rounded-md bg-white">
+        <div id="projectCard"  className=" md:max-w-[324px] cursor-pointer w-[85vw] shadow-md  overflow-hidden  hover:mx-1  transition-all  m-2  h-[26rem] rounded-md bg-white">
             <img alt={"project background image"+title} src={`${imagePath.find((e: string) => !youtubeRegex.test(e))}`}   className="w-full h-[52%] rounded-md object-cover" />
             <div className={`p-1 flex flex-col ${isEnglish ? "items-start" : "items-end"} w-full`}>
-                <h1 className={` font-semibold mx-2 w-[322px] overflow-hidden break-words  h-[3.5rem] text-ellipsis ${isEnglish?'text-start':'text-end'}`}>{title}</h1>
+                <h1 className={` font-semibold mx-2 w-[312px] overflow-hidden break-words  h-[3.5rem] text-ellipsis ${isEnglish?'text-start':'text-end'}`}>{title}</h1>
                 <div className={`flex mt-2 w-full justify-between  mx-1 ${isEnglish ? "items-start" : "items-end"}`}>
                     <div className="w-[43%] h-full">
                         <ProjectProgressComponent percentage={percentage} endDate={endDate} startDate={startDate} isEnglish={isEnglish} />
@@ -131,7 +131,7 @@ function ProjectProgressComponent({ percentage, endDate, startDate ,isEnglish}: 
      
     return (
         <div className={`flex flex-col ${isEnglish ? "items-start" : "items-end"} h-full`}>
-            <h1 className="font-bold text-xs mx-3">{Math.round(percentage) }%</h1>
+            <h1 className="font-bold text-xs mx-1">{Math.round(percentage) }%</h1>
 
             <div className="m-1 mb-2 w-[90%] h-[0.35rem] bg-[#F0F0F0] rounded-sm">
                 <div style={{

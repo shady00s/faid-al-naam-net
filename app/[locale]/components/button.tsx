@@ -3,9 +3,9 @@ interface ButtonInterface {
     title?: string;
     onCLick?: () => any
   }
-  
+  import Image from 'next/image';
   import { motion, useAnimation } from 'framer-motion';
-  import rotate from '/public/rotate.svg';
+  import rotate from '/public/images/rotate.svg';
   import { useEffect } from 'react';
   
   export function SubmitButtonComponent({ loading,title }: ButtonInterface) {
@@ -44,7 +44,7 @@ interface ButtonInterface {
           initial="idle"
           animate={animate}
         >
-          <img src={rotate} className="" />
+          <Image alt="rotate" width={20} height={20} src={rotate} className="" />
         </motion.div>
       </div>
     );

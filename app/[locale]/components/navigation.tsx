@@ -4,11 +4,9 @@ import Image from "next/image";
 import logo from '/public/images/main-logo.svg'
 import { motion, useAnimation } from "framer-motion";
 import useWindowSize from "../hooks/window-size";
-
 import MobileNavComponent from "./mob_navigation";
 import SetLanguageComponent from "./set_language";
 import Link from "next/link";
-
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -16,15 +14,17 @@ import { useEffect, useState } from "react";
 const NavigationComponent: React.FC = () => {
   const animate = useAnimation();
   let params =  useParams().locale; 
-  const isEnglish =params == "en";
-  const currentLang = params;
-  const langVal = useTranslations("");
+  const isEnglish = params == "en";
+
+   const langVal = useTranslations("");
   const { width } = useWindowSize();
 
   const [currentLocation, setCurrentLocation] = useState("/");
   const regex = /^\/ar\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
   
   useEffect(() => {
+    console.log(window.location.pathname);
+    console.log(params)
     getActiveLink(window.location.pathname);
   });
 
@@ -38,31 +38,31 @@ const NavigationComponent: React.FC = () => {
     }
   }, [width]);
   function getActiveLink(link: string) {
-    console.log(link,regex.test(link));
-    if(regex.test(link)){
+     if(regex.test(link)){
       setCurrentLocation("/projects");
 
     }
     else{
       switch (link) {
-        case "/" + currentLang:
+        case "/" + params:
           setCurrentLocation("/");
           break;
-        case "/" + currentLang + "/our-team":
+        case "/" + params + "/our-team":
           setCurrentLocation("/our-team");
           break;
-        case "/" + currentLang + "/contact-us":
+        case "/" + params + "/contact-us":
           setCurrentLocation("/contact-us");
           break;
-        case "/" + currentLang + "/careers":
+        case "/" + params + "/careers":
           setCurrentLocation("/careers");
           break;
-          case "/" + currentLang + "/projects":
+          case "/" + params + "/careers":
+          setCurrentLocation("/upload-resume");
+          break;
+          case "/" + params + "/projects":
           setCurrentLocation("/projects");
           break;
-          case "/" + currentLang + "/projects/":
-          setCurrentLocation("/projects");
-          break;
+
          
       }
 
@@ -119,7 +119,7 @@ const NavigationComponent: React.FC = () => {
               onClick={() => {
                 setCurrentLocation("/");
               }}
-              href={"/"}
+              href={`/${params}`}
             >
               {langVal("Home")}
             </Link>
@@ -133,7 +133,7 @@ const NavigationComponent: React.FC = () => {
               onClick={() => {
                 setCurrentLocation("/projects");
               }}
-              href={`/${currentLang}/projects`}
+              href={`/${params}/projects`}
               className={`text-white cursor-pointer hover:text-red-500 ${
                 currentLocation == "/projects" ? "text-red-500" : "text-white"
               }`}
@@ -150,7 +150,7 @@ const NavigationComponent: React.FC = () => {
               onClick={() => {
                 setCurrentLocation("/our-team");
               }}
-              href={`/${currentLang}/our-team`}
+              href={`/${params}/our-team`}
               className={`text-white cursor-pointer hover:text-red-500`}
             >
               {langVal("WhoWeAre")}
@@ -165,7 +165,7 @@ const NavigationComponent: React.FC = () => {
               onClick={() => {
                 setCurrentLocation("/contact-us");
               }}
-              href={`/${currentLang}/contact-us`}
+              href={`/${params}/contact-us`}
               className={`text-white cursor-pointerhover:text-red-500`}
             >
               {langVal("callUs")}
@@ -179,7 +179,7 @@ const NavigationComponent: React.FC = () => {
               onClick={() => {
                 setCurrentLocation("/careers");
               }}
-              href={`/${currentLang}/careers`}
+              href={`/${params}/careers`}
               className={`text-white cursor-pointer hover:text-red-500`}
             >
               {langVal("careers")}

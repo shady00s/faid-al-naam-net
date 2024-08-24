@@ -12,10 +12,10 @@ import Footer from "../components/footer";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import SplashScreen from "./splash_screen";
-import instance from "@/app/utils/axios";
-import oldImageData from '/public/images/projectBG.svg';
+ import oldImageData from '/public/images/projectBG.svg';
 import contactUs from '/public/images/contactUsImage.svg';
  import { ProjectCardComponent } from "./project_card_component";
+import useGetData from "@/app/utils/getData";
 export default function ProjectsScreen() {
 
   const animate = useAnimation();
@@ -31,7 +31,8 @@ export default function ProjectsScreen() {
   const [crossfade, setCrossfade] = useState(false);
   const isEnglish = useParams().locale == "en";
   const content = useTranslations("");
-  const [projects, setProjects] = useState<any[]>([]);
+  const projects = useGetData('projects','','')
+
   const handleAnimation = useCallback(() => {
      if (isInView) {
       animate.start("visible");
@@ -41,20 +42,6 @@ export default function ProjectsScreen() {
   }, [isInView,projects]);
 
   const memoizedHandleAnimation = useCallback(handleAnimation, [isInView]);
- 
-  useEffect(() => {
-    const fetchData = async () => {
- 
-      try {
-        const response = await instance.get('/api/projects');
-        setProjects(response.data.projects || []); // Set projects (handle empty array)
-      } catch (error) {
-        console.error('Error fetching projects:', error);
-       }  
-    };
-
-    fetchData();
-  }, []);
   useEffect(() => {
     memoizedHandleAnimation();
     productImageAnimation();
@@ -172,7 +159,7 @@ export default function ProjectsScreen() {
                         ref={projectsRef2}
                         className={`flex items-center h-full  content-center flex-wrap   w-full  `}
                        >
-                       {projects.map((e) => (
+                       {projects.map((e:any) => (
                               <ProjectCardComponent
                               isEnglish={isEnglish}
                                 key={e._id}

@@ -36,7 +36,7 @@ export default function ProjectDetailsTodo({ title, isEnglish,isFinished }: { ti
     return (
         <div className={`flex justify-center px-12 ${isEnglish?"items-start text-start":"items-end text-end flex-row-reverse"}`}>
             <Checkbox
-            disabled={!isFinished}
+            disabled={true}
             defaultChecked={isFinished}/>
         <h1 className={`px-3 ${isFinished?"line-through text-gray-600":""}`}>{title}</h1>
         </div>

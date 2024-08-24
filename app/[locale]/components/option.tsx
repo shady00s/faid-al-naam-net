@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 
 interface optionsInterface {
@@ -6,6 +7,7 @@ interface optionsInterface {
   name: string;
   title: string;
   isObject?: boolean;
+  isEnglish?:boolean
 }
 
 export default function OptionsComponent({
@@ -13,7 +15,7 @@ export default function OptionsComponent({
   optionsList,
   name,
   title,
-  isObject
+  isObject,isEnglish
 }: optionsInterface) {
   const [val, setVal] = useState<string>("");
   return (
@@ -31,7 +33,7 @@ export default function OptionsComponent({
         }}
         >
         {optionsList.map((e:any,index:number) => (
-            <option value={e._id} key={index} className="p-2 ">{isObject?  e.nameEn??e.nameAr :e}</option>
+            <option value={e._id} key={index} className="p-2 ">{isObject? isEnglish? e.nameEn:e.nameAr :e}</option>
         ))}
         </select>
 

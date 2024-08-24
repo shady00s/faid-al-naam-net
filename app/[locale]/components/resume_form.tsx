@@ -1,4 +1,5 @@
-import { useLocation } from "react-router";
+"use client";
+
 import FileUploader from "../components/file_uploader";
 import IncreamentingInputWidget from "../components/increamenting_input";
 import OptionsComponent from "../components/option";
@@ -6,46 +7,64 @@ import {
   InputTextAreaComponent,
   InputTextComponent,
 } from "../components/text_input";
-import useHandleForm from "../hooks/handle_forms";
-import { SubmitButtonComponent } from "../components/button";
-import { useEffect, useRef, useState } from "react";
-import { useCurrentLanguage } from "../hooks/get_language";
-import ErrorComponent from "../components/error";
+ import { SubmitButtonComponent } from "../components/button";
+import {useRef,useCallback ,useEffect, useState} from "react";
+ import ErrorComponent from "../components/error";
+import { useTranslations } from "next-intl";
+import { useParams,useSearchParams, } from "next/navigation";
+ import useHandleForm from "../hooks/handle_forms";
+import useGetData from "@/app/utils/getData";
+import {instance} from "@/app/utils/axios";
 
 export default function ResumeForm() {
-  const location = useLocation();
   const formRef = useRef<HTMLFormElement>(null);
-  let language = useCurrentLanguage();
-  const [content, setContent] = useState<ContentInterface>({
-    isEnglish: false,
-    data: null,
-  });
-  useEffect(() => {
-    if (language) {
-      setContent({
-        isEnglish: language.type === "en",
-        data: language.value,
-      });
-    }
-  }, [language]);
-
-  const { isSubmitting, handleSubmit, submitError } = useHandleForm({
+  const isEnglish = useParams().locale == "en";
+  let position:any = null;
+ const content = useTranslations("")
+ const [jobsList,setJobsList] = useState<any[]>([])
+    const { isSubmitting, handleSubmit, submitError,canNavigate } = useHandleForm({
     successNavUrl: "/careers",
     url: "/resumes/upload-resume",
     id: "",
   });
-  return (
+    let id = useSearchParams().get("availableJob")
+    let title = useSearchParams().get("jobName")
+    
+    let data = null;
+
+    const fetchData = useCallback(async () => {
+      try {
+        let response:any;
+        if(id=="false" ){
+          response = await instance.get('/api/' + "availableJobs");
+           setJobsList(response.data.availableJobs?.availableJobs || []);  
+  
+        } 
+      } catch (error) {
+        console.error('Error fetching clientData:', error);
+      }
+    }, [id]); 
+    useEffect(()=>{
+        if(id =='false'){
+          fetchData()
+        }
+
+    },[id])
+    return (
     <>
+
       <div className="bg-sky-50 h-screen sm:p-10 p-4 flex flex-col items-center justify-center">
-        {location.state?.position ? (
+      <div className="p-12"/>
+
+        {title ? (
           <>
-            <h1 className="text-xl font-bold">{content.data?.companyName}</h1>
+            <h1 className="text-xl font-bold">{content("companyName")}</h1>
             <h2 className="my-6">
-              {content.data?.YouAppliedFor +
+              {content("YouAppliedFor") +
                 " " +
-                location.state.position +
+                title+
                 " " +
-                content.data?.pleaseFillTheForm}
+                content("pleaseFillTheForm")}
             </h2>
           </>
         ) : (
@@ -58,39 +77,40 @@ export default function ResumeForm() {
           className="flex max-w-[1080px] overflow-y-auto overflow-x-hidden flex-col items-center sm:p-12 p-4 bg-white sm:w-5/6 w-full h-full rounded"
         >
           <span className="text-xl font-bold">
-            {content.data?.YourPersonalData}
+            {content("YourPersonalData")}
           </span>
           <span className="text-sm text-gray-500">
-            {content.data?.AllDataAreRequired}
+            {content("AllDataAreRequired")}
           </span>
           <div className="  w-full">
             <div className="w-full h-[3rem]"></div>
           </div>
 
-          {location.state?.id ? (
+          {title && id? (
             <input
               onChange={(_) => {}}
               type="text"
               name="appliedJob"
               hidden
-              value={location.state.id}
+              value={id}
             />
           ) : (
             <>
               <OptionsComponent
+              isEnglish={isEnglish}
               isObject={true}
                 onChange={(_) => {}}
                 name={"appliedJob"}
                 optionsList={
-                  location.state?.availableJobs ?? []
+                  jobsList ?? []
                 }
-                title={content.data?.PositionThatWillSuitYou ?? ""}
+                title={content("PositionThatWillSuitYou") ?? ""}
               />
             </>
           )}
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
-            placeholder={content.data?.FullName}
+            direction={isEnglish ? "ltr" : "rtl"}
+            placeholder={content("FullName")}
             disabled={isSubmitting}
             type={""}
             required={true}
@@ -99,8 +119,8 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
-            placeholder={content.data?.Address}
+            direction={isEnglish ? "ltr" : "rtl"}
+            placeholder={content("Address")}
             disabled={isSubmitting}
             type={""}
             required={true}
@@ -109,8 +129,8 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
-            placeholder={content.data?.Nationality}
+            direction={isEnglish ? "ltr" : "rtl"}
+            placeholder={content("Nationality")}
             disabled={isSubmitting}
             type={""}
             required={true}
@@ -119,8 +139,8 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
-            placeholder={content.data?.Religion}
+            direction={isEnglish ? "ltr" : "rtl"}
+            placeholder={content("Religion")}
             disabled={isSubmitting}
             type={""}
             required={true}
@@ -129,8 +149,8 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
-            placeholder={content.data?.PhoneNumber}
+            direction={isEnglish ? "ltr" : "rtl"}
+            placeholder={content("PhoneNumber")}
             disabled={isSubmitting}
             type={"number"}
             required={true}
@@ -139,8 +159,8 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
-            placeholder={content.data?.EmailAddress}
+            direction={isEnglish ? "ltr" : "rtl"}
+            placeholder={content("EmailAddress")}
             disabled={isSubmitting}
             type={"email"}
             required={true}
@@ -150,8 +170,8 @@ export default function ResumeForm() {
           />
           <div className="flex w-full items-end mb-14 flex-wrap lg:flex-nowrap">
             <InputTextComponent
-              direction={content.isEnglish ? "ltr" : "rtl"}
-              placeholder={content.data?.Age}
+              direction={isEnglish ? "ltr" : "rtl"}
+              placeholder={content("Age")}
               type={"number"}
               disabled={isSubmitting}
               required={true}
@@ -162,8 +182,8 @@ export default function ResumeForm() {
             <div className="w-20"></div>
 
             <InputTextComponent
-              direction={content.isEnglish ? "ltr" : "rtl"}
-              placeholder={content.data?.DateOfBirth}
+              direction={isEnglish ? "ltr" : "rtl"}
+              placeholder={content("DateOfBirth")}
               disabled={isSubmitting}
               type={"date"}
               required={true}
@@ -175,37 +195,37 @@ export default function ResumeForm() {
             <OptionsComponent
               name="gender"
               optionsList={[
-                content.data?.male ?? "",
-                content.data?.female ?? "",
+                content("male") ?? "",
+                content("female") ?? "",
               ]}
-              title={content.data?.gender ?? ""}
+              title={content("gender") ?? ""}
             />
             <div className="w-20"></div>
 
             <OptionsComponent
               name={"militaryStatus"}
               optionsList={[
-                content.data?.finished ?? "",
-                content.data?.exempted ?? "",
-                content.data?.delayed ?? "",
-                content.data?.inReserve ?? "",
+                content("finished") ?? "",
+                content("exempted") ?? "",
+                content("delayed") ?? "",
+                content("inReserve") ?? "",
               ]}
-              title={content.data?.militaryStatus ?? ""}
+              title={content("militaryStatus") ?? ""}
             />
           </div>
           <div className="w-full min-h-24 flex flex-col items-center justify-center">
             <p className="text-xl font-bold">
-              {content.data?.YourEducationAndTrainings}
+              {content("YourEducationAndTrainings")}
             </p>
             <p className="text-sm text-gray-500">
-              {content.data?.AllDataAreRequired}
+              {content("AllDataAreRequired")}
             </p>
           </div>
 
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
+            direction={isEnglish ? "ltr" : "rtl"}
             disabled={isSubmitting}
-            placeholder={content.data?.University}
+            placeholder={content("University")}
             type={""}
             required={true}
             name={"university"}
@@ -213,9 +233,9 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
+            direction={isEnglish ? "ltr" : "rtl"}
             disabled={isSubmitting}
-            placeholder={content.data?.Faculty}
+            placeholder={content("Faculty")}
             type={""}
             required={true}
             name={"faculty"}
@@ -223,9 +243,9 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
+            direction={isEnglish ? "ltr" : "rtl"}
             disabled={isSubmitting}
-            placeholder={content.data?.Grade}
+            placeholder={content("Grade")}
             type={""}
             required={true}
             name={"grade"}
@@ -233,9 +253,9 @@ export default function ResumeForm() {
             id={null}
           />
           <InputTextComponent
-            direction={content.isEnglish ? "ltr" : "rtl"}
+            direction={isEnglish ? "ltr" : "rtl"}
             disabled={isSubmitting}
-            placeholder={content.data?.GraduationYear}
+            placeholder={content("GraduationYear")}
             type={"number"}
             required={true}
             name={"graduationYear"}
@@ -246,16 +266,16 @@ export default function ResumeForm() {
             <div className="h-14"></div>
           </div>
           <span className="  text-xl font-bold ">
-            {content.data?.CoursesAndTrainingsSection}
+            {content("CoursesAndTrainingsSection")}
           </span>
 
           <IncreamentingInputWidget
             component={
               <div key={Math.round(Math.random() * 800)}>
                 <InputTextComponent
-                  direction={content.isEnglish ? "ltr" : "rtl"}
+                  direction={isEnglish ? "ltr" : "rtl"}
                   disabled={isSubmitting}
-                  placeholder={content.data?.CourseName}
+                  placeholder={content("CourseName")}
                   type={""}
                   required={true}
                   name={"courseNameList"}
@@ -263,9 +283,9 @@ export default function ResumeForm() {
                   id={null}
                 />
                 <InputTextComponent
-                  direction={content.isEnglish ? "ltr" : "rtl"}
+                  direction={isEnglish ? "ltr" : "rtl"}
                   disabled={isSubmitting}
-                  placeholder={content.data?.Institute}
+                  placeholder={content("Institute")}
                   type={""}
                   required={true}
                   name={"instituteList"}
@@ -273,9 +293,9 @@ export default function ResumeForm() {
                   id={null}
                 />
                 <InputTextComponent
-                  direction={content.isEnglish ? "ltr" : "rtl"}
+                  direction={isEnglish ? "ltr" : "rtl"}
                   disabled={isSubmitting}
-                  placeholder={content.data?.From}
+                  placeholder={content("From")}
                   type={"date"}
                   required={true}
                   name={"courseFromDateList"}
@@ -283,9 +303,9 @@ export default function ResumeForm() {
                   id={null}
                 />
                 <InputTextComponent
-                  direction={content.isEnglish ? "ltr" : "rtl"}
+                  direction={isEnglish ? "ltr" : "rtl"}
                   disabled={isSubmitting}
-                  placeholder={content.data?.To}
+                  placeholder={content("To")}
                   type={"date"}
                   required={true}
                   name={"courseToDateList"}
@@ -297,18 +317,18 @@ export default function ResumeForm() {
           />
           <div className="  p-16 w-full"></div>
           <span className="text-xl font-bold">
-            {content.data?.YourExperiences}
+            {content("YourExperiences")}
           </span>
           <span className="text-sm text-gray-500">
-            {content.data?.AllDataAreRequired}
+            {content("AllDataAreRequired")}
           </span>
           <IncreamentingInputWidget
             component={
               <div key={Math.round(Math.random() * 400)}>
                 <InputTextComponent
-                  direction={content.isEnglish ? "ltr" : "rtl"}
+                  direction={isEnglish ? "ltr" : "rtl"}
                   disabled={isSubmitting}
-                  placeholder={content.data?.CompanyName}
+                  placeholder={content("CompanyName")}
                   type={""}
                   required={true}
                   name={"companyNameList"}
@@ -316,9 +336,9 @@ export default function ResumeForm() {
                   id={null}
                 />
                 <InputTextComponent
-                  direction={content.isEnglish ? "ltr" : "rtl"}
+                  direction={isEnglish ? "ltr" : "rtl"}
                   disabled={isSubmitting}
-                  placeholder={content.data?.CompanyAddress}
+                  placeholder={content("CompanyAddress")}
                   type={""}
                   required={true}
                   name={"companyAddressList"}
@@ -327,9 +347,9 @@ export default function ResumeForm() {
                 />
                 <div className="flex">
                   <InputTextComponent
-                    direction={content.isEnglish ? "ltr" : "rtl"}
+                    direction={isEnglish ? "ltr" : "rtl"}
                     disabled={isSubmitting}
-                    placeholder={content.data?.Position}
+                    placeholder={content("Position")}
                     type={""}
                     required={true}
                     name={"positionList"}
@@ -337,9 +357,9 @@ export default function ResumeForm() {
                     id={null}
                   />
                   <InputTextComponent
-                    direction={content.isEnglish ? "ltr" : "rtl"}
+                    direction={isEnglish ? "ltr" : "rtl"}
                     disabled={isSubmitting}
-                    placeholder={content.data?.From}
+                    placeholder={content("From")}
                     type={"date"}
                     required={true}
                     name={"fromDateList"}
@@ -347,9 +367,9 @@ export default function ResumeForm() {
                     id={null}
                   />
                   <InputTextComponent
-                    direction={content.isEnglish ? "ltr" : "rtl"}
+                    direction={isEnglish ? "ltr" : "rtl"}
                     disabled={isSubmitting}
-                    placeholder={content.data?.To}
+                    placeholder={content("To")}
                     type={"date"}
                     required={true}
                     name={"toDateList"}
@@ -358,9 +378,9 @@ export default function ResumeForm() {
                   />
                 </div>
                 <InputTextAreaComponent
-                  direction={content.isEnglish ? "ltr" : "rtl"}
+                  direction={isEnglish ? "ltr" : "rtl"}
                   disabled={isSubmitting}
-                  placeholder={content.data?.WhatIsYourRoles}
+                  placeholder={content("WhatIsYourRoles")}
                   type={""}
                   required={false}
                   name={"roleSummaryList"}
@@ -372,16 +392,16 @@ export default function ResumeForm() {
           />
           <div className="  p-16 w-full"></div>
           <span className="text-xl font-bold">
-            {content.data?.YourResumeAndCoverLetter}
+            {content("YourResumeAndCoverLetter")}
           </span>
           <span className="text-sm text-gray-500">
-            {content.data?.AllDataAreRequired}
+            {content("AllDataAreRequired")}
           </span>
           <div className="w-full">
             <InputTextAreaComponent
-              direction={content.isEnglish ? "ltr" : "rtl"}
+              direction={isEnglish ? "ltr" : "rtl"}
               disabled={isSubmitting}
-              placeholder={content.data?.CoverLetter}
+              placeholder={content("CoverLetter")}
               type={""}
               required={false}
               name={"coverLetter"}
@@ -390,13 +410,13 @@ export default function ResumeForm() {
             />
 
             <FileUploader
-              title={content.data?.SelectResume}
-              subTitle={content.data?.NoFileSelected}
+              title={content("SelectResume")}
+              subTitle={content("NoFileSelected")}
               disabled={isSubmitting}
             />
             <div className="w-[10rem] mt-10 m-auto">
               <SubmitButtonComponent
-                title={content.data?.Submit}
+                title={content("Submit")}
                 loading={isSubmitting}
               />
             </div>
@@ -410,3 +430,7 @@ export default function ResumeForm() {
     </>
   );
 }
+
+
+
+

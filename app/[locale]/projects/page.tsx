@@ -63,11 +63,7 @@ export async function generateMetadata({
   };
 }
 export default  function Projects() {
-  const t = useTranslations("");
-  // const res = await fetch(
-  //   `http://localhost:3000/api/projects`
-  // );
-  // const data = await res.json();
+
   return (
     <div>
           <ProjectsScreen/>

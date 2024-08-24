@@ -12,7 +12,9 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
   const animate = useAnimation();
   const [navClose, setNavClose] = useState<boolean>(false);
   const [currentLocation, setCurrentLocation] = useState("/");
-  const currentLang = useParams().locale;
+  const regex = /^\/ar\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
+
+  let currentLang = useParams().locale;
   useEffect(() => {
     getActiveLink(window.location.pathname);
   });
@@ -24,29 +26,36 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
     }
   }, [navClose]);
   function getActiveLink(link: string) {
-    switch (link) {
-      case "/" + currentLang:
-        setCurrentLocation("/");
-        break;
-      case "/" + currentLang + "/our-team":
-        setCurrentLocation("/our-team");
-        break;
-      case "/" + currentLang + "/contact-us":
-        setCurrentLocation("/contact-us");
-        break;
-      case "/" + currentLang + "/careers":
-        setCurrentLocation("/careers");
-        break;
-      case "/" + currentLang + "/projects":
-        console.log("asdasd");
+    if(regex.test(link)){
+     setCurrentLocation("/projects");
 
-        setCurrentLocation("/projects");
-        break;
-      default:
-        setCurrentLocation("/");
-        break;
-    }
-  }
+   }
+   else{
+     switch (link) {
+       case "/" + currentLang:
+         setCurrentLocation("/");
+         break;
+       case "/" + currentLang + "/our-team":
+         setCurrentLocation("/our-team");
+         break;
+       case "/" + currentLang + "/contact-us":
+         setCurrentLocation("/contact-us");
+         break;
+       case "/" + currentLang + "/careers":
+         setCurrentLocation("/careers");
+         break;
+       case "/" + currentLang + "/upload-resume":
+         setCurrentLocation("/careers");
+         break;
+         case "/" + currentLang + "/projects":
+         setCurrentLocation("/projects");
+         break;
+
+        
+     }
+
+   }
+ }
 
 
   const toogleMobNav = () => {
@@ -68,7 +77,7 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
     >
       <div className={`flex w-full justify-between items-center`}>
         <Link
-          href="/"
+          href={`/${currentLang}`}
           onClick={() => {
             setCurrentLocation("/");
           }}
@@ -105,9 +114,9 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
         <li className="cursor-pointer">
           <Link
             style={{
-              color: currentLocation == "/contact-us" ? "red" : "white",
+              color: currentLocation == "/" ? "red" : "white",
             }}
-            href={"/"}
+            href={`/${currentLang}`}
             onClick={() => {
               animate.start("hidden").then(() => {
                 setNavClose(false);
@@ -123,7 +132,7 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
         <li className="cursor-pointer">
           <Link
             style={{
-              color: currentLocation == "/contact-us" ? "red" : "white",
+              color: currentLocation == "/projects" ? "red" : "white",
             }}
             href={`/${currentLang}/projects`}
             onClick={() => {
@@ -141,7 +150,7 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
         <li className="cursor-pointer">
           <Link
             style={{
-              color: currentLocation == "/contact-us" ? "red" : "white",
+              color: currentLocation == "/our-team" ? "red" : "white",
             }}
             href={`/${currentLang}/our-team`}
             onClick={() => {
@@ -175,7 +184,7 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
         <li className="cursor-pointer">
           <Link
             style={{
-              color: currentLocation == "/contact-us" ? "red" : "white",
+              color: currentLocation == "/careers" ? "red" : "white",
             }}
             href={`/${currentLang}/careers`}
             onClick={() => {

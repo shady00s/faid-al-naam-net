@@ -1,10 +1,9 @@
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useCallback, useRef, useState } from "react";
-import NavigationComponent from "../components/navigation";
-import { useParams } from "next/navigation";
+ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
  
-export default function PartnersScreen({partners}:[any]) {
+export default function PartnersScreen({partners}:any) {
     const refAttr1 = useRef<HTMLDivElement>(null)
     const animate = useAnimation()
     const mobViewRef = useRef<HTMLDivElement>(null)

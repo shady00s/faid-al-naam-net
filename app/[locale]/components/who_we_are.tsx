@@ -6,9 +6,10 @@ import CardComponent from "../components/card_component";
   //import { useMetaTags } from "react-metatags-hook";
  import { useParams } from "next/navigation";
  import { useTranslations } from "next-intl";
+import useGetData from "@/app/utils/getData";
 
 export default function WhoWeAreScreen() {
-  
+    const employees = useGetData('employees','','');
     const refAttr = useRef<HTMLDivElement>(null)
     const animate = useAnimation()
     const isEnglish = useParams().locale == "en";
@@ -108,7 +109,7 @@ export default function WhoWeAreScreen() {
                                 initial="hidden"
                                 animate={animate}
                                 transition={{ duration: 0.3, delay: 0.13 }}
-                                className="text-5xl font-bold  pb-2">{content.data?.WhoWeAre??''}</motion.h1>
+                                className="text-5xl font-bold  pb-2">{content("WhoWeAre")}</motion.h1>
                             <motion.h2
                                 variants={{
                                     hidden: { opacity: 0 },
@@ -117,7 +118,7 @@ export default function WhoWeAreScreen() {
                                 initial="hidden"
                                 animate={animate}
                                 transition={{ duration: 0.3, delay: 0.15 }}
-                                className={`text-base pb-4 ${isEnglish?"text-left":"text-right"}`}>{content.data?.aboutUsSubTitle??''}</motion.h2>
+                                className={`text-base pb-4 ${isEnglish?"text-left":"text-right"}`}>{content("WhoWeAreSubTitle")}</motion.h2>
                         </header>
 
                     </div>
@@ -132,7 +133,7 @@ export default function WhoWeAreScreen() {
                         transition={{ duration: 0.3, delay: 0.13 }}
 
                         className="p-1 md:p-3 max-w-[1080px]  justify-center  items-start flex md:w-4/5 flex-wrap m-auto w-full">
-                        {/* {dataList.map((e) => <CardComponent key={e._id} name={isEnglish ? e.nameEn : e.nameAr} imageUrl={e.imageUrl} title={isEnglish ? e.titleEn : e.titleAr} facebookUrl={e.facebookUrl} linkedInUrl={e.linkedInUrl} xUrl={e.xUrl} summary={isEnglish ? e.summaryEn : e.summaryAr} content={content} />)} */}
+                         {employees.map((e:any) => <CardComponent key={e._id} name={isEnglish ? e.nameEn : e.nameAr} imageUrl={e.imageUrl} title={isEnglish ? e.titleEn : e.titleAr} facebookUrl={e.facebookUrl} linkedInUrl={e.linkedInUrl} xUrl={e.xUrl} summary={isEnglish ? e.summaryEn : e.summaryAr} isEnglish={isEnglish} />)}
 
                     </motion.div>
 

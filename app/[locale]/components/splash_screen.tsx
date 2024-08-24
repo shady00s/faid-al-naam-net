@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import animation from "./splash_svg_animation";
-import { useAnimation } from "framer-motion";
 import Image from "next/image";
 export default function SplashScreen() {
    /* eslint-disable */

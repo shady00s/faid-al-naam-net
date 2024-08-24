@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
-import Input from "../components/input";
-import { Metadata } from "next";
+ import { Metadata } from "next";
 import WhoWeAreScreen from '../components/who_we_are'
 export async function generateMetadata({
   params: { locale },
@@ -55,7 +54,7 @@ export async function generateMetadata({
     },
   };
 }
-export default function Projects(){
+export default function OurTeam(){
     return (<div>
       <WhoWeAreScreen/>
     </div>)

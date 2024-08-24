@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import imag from "/public/images/qoute.svg";
-export default function TestimonialsComponent({ testimonials }: [any]) {
+export default function TestimonialsComponent({ testimonials }: any) {
   const animate = useAnimation();
   const refAttr = useRef<HTMLDivElement>(null);
   const mobViewRef = useRef<HTMLImageElement>(null);
@@ -42,8 +42,7 @@ export default function TestimonialsComponent({ testimonials }: [any]) {
 
   useEffect(() => {
     if (testimonials.length > 0) {
-      console.log(testimonials[0].nameAr);
-      setShowData({
+       setShowData({
         index: 0,
         name: isEnglish ? testimonials[0].nameEn : testimonials[0].nameAr,
         testimonial: isEnglish

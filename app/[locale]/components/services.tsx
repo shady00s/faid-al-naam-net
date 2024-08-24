@@ -1,9 +1,9 @@
- import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import {useEffect, useRef, useState } from "react";
 
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useParams } from "next/navigation";
-export default function ServicesComponent({services}:[any]) {
+export default function ServicesComponent({services}:any) {
     const animate = useAnimation()
     const refAttr = useRef<HTMLDivElement>(null)
     const mobViewRef = useRef<HTMLImageElement>(null)

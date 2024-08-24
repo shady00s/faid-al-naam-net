@@ -13,7 +13,7 @@ import IndicationComponent from "./components/indicators";
 import Footer from "./components/footer";
 import PartnersScreen from "./components/partners";
 import AboutUsScreen from "./components/mession";
-import instance from '../utils/axios'
+ import useGetData from '../utils/getData'
 import ServicesComponent from "./components/services";
 import SubNavComponent from "./components/sub_nav";
 import TestimonialsComponent from "./components/testimonials";
@@ -31,12 +31,11 @@ import TestimonialsComponent from "./components/testimonials";
   const animate = useAnimation();
   const isInView = useInView(refAttr);
   const [isLoading,setLoading] = useState(false)
-  const [statistics,setStatistics] = useState([])
-  const [partners,setPartners] = useState([])
+  const [statistics,setStatistics] = useState<any[]>([])
+  const [partners,setPartners] = useState<any[]>([])
   const [services,setServices] = useState([])
-  const [testimonials,setTestimonials] = useState([])
-  const clientData = instance.get("/client",{ params: { language: currentLang} })
-   const handleAnimation = useCallback(() => {
+  const [testimonials,setTestimonials] = useState<any[]>([])
+    const handleAnimation = useCallback(() => {
     if (isInView && statistics.length > 0) {
       animate.start("visible");
     } else {
@@ -57,23 +56,30 @@ import TestimonialsComponent from "./components/testimonials";
     handleAnimation();
   }, [isInView,statistics]);
 
-  useEffect(() => {
-    if(statistics.length == 0 || testimonials.length == 0 || partners.length ==0 || services.length == 0){
-      setLoading(true)
-      clientData.then((res) => {
-        if(res.status == 200)
-          setStatistics(()=>res.data.response.statstics)
-          setPartners(()=>res.data.response.partners)
-          setTestimonials(()=>res.data.response.testimonials)
-          setServices(()=>res.data.response.services)
-        setLoading(false)
-       }).catch((e)=>{
-        setLoading(false)
-      })
-      
+  const dataFromApi = useGetData('clients')
+
+   useEffect(()=>{
+    setLoading(true)
+    if(dataFromApi){
+      if(dataFromApi.testimonials && testimonials.length ==0){
+      setTestimonials(dataFromApi.testimonials);
+     }
+     if(dataFromApi.partners&& partners.length ==0 ){
+       setPartners(()=>dataFromApi.partners)
+     }
+     if(dataFromApi.statistics && statistics.length == 0){
+       setStatistics(dataFromApi.statistics)
+ 
+     }
+     if(dataFromApi.services && services.length == 0){
+      setServices(dataFromApi.services)
     }
-  },[statistics])
-  useEffect(() => {
+
+    }
+    setLoading(false)
+  },[dataFromApi])
+
+   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       const x: number = event.clientX / 90;
       const y: number = event.clientY / 90;
@@ -100,10 +106,10 @@ import TestimonialsComponent from "./components/testimonials";
        ></div>
       {isLoading? <SplashScreen/> : 
       
-     <div className={` w-full h overflow-x-hidden bg-white  relative  flex flex-col p-0`}>
+     <div className={` w-full min-h-screen overflow-x-hidden bg-white  relative  flex flex-col p-0`}>
       <section
         ref={imageContainerRef}
-        className={` w-full h-screen  overflow-x-hidden overflow-y-hidden bg-black  relative  flex flex-col p-0`}
+        className={` w-full h-screen min-h-screen  overflow-x-hidden overflow-y-hidden bg-black  relative  flex flex-col p-0`}
       >
 
       
@@ -131,7 +137,7 @@ import TestimonialsComponent from "./components/testimonials";
         <div
           className={`w-full max-w-[2208px] absolute  h-3/6 z-10 flex  justify-end`}
         >
-          <header className=" md:mt-auto  -mb-[3.5rem]  w-[22rem]  lg:w-[42rem] md:w-[41rem] my-auto p-12">
+          <header className=" md:mt-auto  -mb-[5.5rem]  w-[22rem]  lg:w-[42rem] md:w-[41rem] my-auto p-12">
             <motion.h2
               ref={titleRef}
               variants={{
@@ -141,7 +147,7 @@ import TestimonialsComponent from "./components/testimonials";
               initial="hidden"
               animate={animate}
               transition={{ duration: 0.3, delay: 0.1 }}
-              className={`text-white relative ${isEnglish ? "text-left" : "text-right"}   text-3xl/[3.2rem] font-bold`}
+              className={`text-white relative ${isEnglish ? "text-left" : "text-right"}   md:text-3xl/[3.2rem] text-2xl/[2.2rem] font-bold`}
             >
               {content("intro")}
             </motion.h2>
@@ -198,10 +204,10 @@ import TestimonialsComponent from "./components/testimonials";
         </motion.div>
       </section>
       <section>
-        <AboutUsScreen navReff={aboutRef} />
-        <ServicesComponent services={services} />
-        <PartnersScreen partners={partners} />
-        <TestimonialsComponent testimonials={testimonials} />
+       <AboutUsScreen navReff={aboutRef} />
+       {services.length> 0? <ServicesComponent services={services} />:<></>} 
+       {partners.length> 0?  <PartnersScreen partners={partners} />:<></>} 
+       {testimonials.length> 0?  <TestimonialsComponent testimonials={testimonials} />:<></>} 
         <SubNavComponent />
         <Footer />
       </section>

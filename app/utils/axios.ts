@@ -12,6 +12,14 @@ const instance = axios.create({
     }
 })
 
+const instance2 = axios.create({
+    //'https://faid-al-naam-server.onrender.com/'
+    baseURL:   'https://faid-al-naam-server.onrender.com/',
+    withCredentials: false,
+    
+    headers: {
+        'Content-Type': 'application/json',
+    }
+})
 
-
-export default instance
+export  {instance,instance2}
