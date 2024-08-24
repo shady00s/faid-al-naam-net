@@ -1,6 +1,8 @@
 import { useTranslations } from "next-intl";
 import { Metadata } from "next";
 import ContactUsScreen from '../components/contact_us'
+import img from '/public/images/logo11.svg'
+
 export async function generateMetadata({
   params: { locale },
 }: any): Promise<Metadata> {
@@ -14,8 +16,8 @@ export async function generateMetadata({
         },
       },
     icons: {
-      icon: "/images/logo1.svg",
-      shortcut: "/images/logo1.svg",
+      icon: img,
+      shortcut: img,
     },
 
     title:
@@ -32,7 +34,7 @@ export async function generateMetadata({
           : "فيض النعم للامن الغذائي",
           description:locale === "en"?"Need more information? Visit us or send your inquiry for your assistance.": 'هل تحتاج إلى مزيد من المعلومات؟ تفضل بزيارتنا  أو أرسل استفسارك لمساعدتك',
       images: {
-        url: "/images/logo11.svg",
+        url: img,
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
@@ -41,7 +43,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       images: {
-        url: "/images/logo11.svg",
+        url: img,
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },

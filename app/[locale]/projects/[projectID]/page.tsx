@@ -17,7 +17,7 @@ export async function generateMetadata({
 
   const decodedArabic = decodeURIComponent(projectID);
    const res = await fetch(
-    `http://localhost:3000/api/projectDetails?projectID=${decodedArabic}`
+    `${process.env.BASE_URL}api/projectDetails?projectID=${decodedArabic}`
   );
   const data = await res.json();
 
