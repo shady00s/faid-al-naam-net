@@ -31,7 +31,7 @@ export default function ProjectsScreen() {
   const [crossfade, setCrossfade] = useState(false);
   const isEnglish = useParams().locale == "en";
   const content = useTranslations("");
-  const projects = useGetData('projects','','')
+  const projects = useGetData('projects')
 
   const handleAnimation = useCallback(() => {
      if (isInView) {
