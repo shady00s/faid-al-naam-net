@@ -129,7 +129,7 @@ export default async function Page({
 
       <div className="h-12"></div>
 
-      <div className={`flex flex-col ${isEnglish?"justify-end":"items-end"} `}>
+      <div className={`flex flex-col ${isEnglish?"justify-end":"items-end"}`}>
         <ProjectDetailsTitle title={content("target")} isEnglish={isEnglish} />
         <div className='h-5'></div>
         <ProjectDetailsIndecator isEnglish={isEnglish} numberOfTodos={data.project.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)

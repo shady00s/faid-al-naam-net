@@ -34,7 +34,7 @@ export interface CheckboxProps {
  
 export default function ProjectDetailsTodo({ title, isEnglish,isFinished }: { title: string,isEnglish:boolean,isFinished:boolean }) {
     return (
-        <div className={`flex justify-center px-12 ${isEnglish?"items-start text-start":"items-end text-end flex-row-reverse"}`}>
+        <div className={`flex  px-12 ${isEnglish?"items-start text-start":"items-end text-end flex-row-reverse"}`}>
             <Checkbox
             disabled={true}
             defaultChecked={isFinished}/>
