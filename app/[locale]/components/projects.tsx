@@ -22,9 +22,7 @@ export default function ProjectsScreen() {
   const projectsRef = useRef<HTMLDivElement>(null);
   const projectsRef2 = useRef<HTMLDivElement>(null);
   const [image, setImage] = useState<string>(oldImageData);
-  const [projectData, setProjectData] = useState<ProjectCardInterface | null>(
-    null
-  );
+
   const [oldImage, setOldImage] = useState<string>(image);
   const refAttr = useRef<HTMLDivElement>(null);
   const isInView = useInView(refAttr);
@@ -139,9 +137,6 @@ export default function ProjectsScreen() {
                     </motion.h4>
                   </header>
 
-                  <ProjectDetailsContext.Provider
-                    value={{ projectData, setProjectData }}
-                  >
                     <motion.div
                       id="projects"
                       variants={{
@@ -174,8 +169,7 @@ export default function ProjectsScreen() {
                       </div>
 
                     </motion.div>
-                  </ProjectDetailsContext.Provider>
-                </ProjectBackgroundContext.Provider>
+                 </ProjectBackgroundContext.Provider>
                  
               </div>
  
