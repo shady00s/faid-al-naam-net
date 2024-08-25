@@ -3,8 +3,10 @@ import "./globals.css";
  import { Metadata } from "next";
 
 const inter = Almarai({ 
-    weight: "400",
+    weight: "300",
      subsets: ['arabic'], 
+     variable: "--font-almarai",
+     display: 'swap', adjustFontFallback: false
   });
 
 export async function generateMetadata({
@@ -74,7 +76,7 @@ export default async function RootLayout({
 }>) {
  
   return (
-    <html lang={locale}>
+    <html lang={locale} className="font-Almarai">
       <head>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 

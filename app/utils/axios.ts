@@ -1,11 +1,12 @@
 
 import axios from "axios"
-
-
-const instance = axios.create({
-    baseURL:  process.env.NODE_ENV === "production"? process.env.BASE_URL :'http://localhost:3000/',
+ 
+ 
+ const instance = axios.create({
+    baseURL:   process.env.BASE_URL,
     withCredentials: false,
-    
+    timeout: 20000,
+
     headers: {
         'Content-Type': 'application/json',
     }
@@ -14,7 +15,8 @@ const instance = axios.create({
 const instance2 = axios.create({
     baseURL:   process.env.DASHBOARD_BASE_URL,
     withCredentials: false,
-    
+    timeout: 20000,
+
     headers: {
         'Content-Type': 'application/json',
     }

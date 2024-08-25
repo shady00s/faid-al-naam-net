@@ -15,7 +15,7 @@ export default function ProjectDetailsIndecator({
         className={`flex items-center ${isEnglish?"":"flex-row-reverse"} justify-between px-1 w-[90%] m-auto divide-x relative h-4 rounded-md`}
       >
                     <div
-                    className={`bg-[rgba(242,242,242,1)] m-0 p-0 b-0 md:h-3 h-2 flex justify-end items-center w-full rounded-md`}>
+                    className={`bg-[rgba(242,242,242,1)] m-0 p-0 b-0 md:h-3 h-2 flex justify-end items-center w-full rounded-md ${isEnglish?"flex-row-reverse":""}`}>
                    
                    <div
                     className={`bg-[rgba(111,158,172,1)] 

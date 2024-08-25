@@ -147,7 +147,7 @@ import TestimonialsComponent from "./components/testimonials";
               initial="hidden"
               animate={animate}
               transition={{ duration: 0.3, delay: 0.1 }}
-              className={`text-white relative ${isEnglish ? "text-left" : "text-right"}   md:text-3xl/[3.2rem] text-2xl/[2.2rem] font-bold`}
+              className={`text-white relative ${isEnglish ? "text-left" : "text-right"}   md:text-3xl/[3.2rem] text-2xl/[2.5rem] font-bold`}
             >
               {content("intro")}
             </motion.h2>

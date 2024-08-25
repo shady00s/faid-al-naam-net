@@ -120,7 +120,10 @@ export function CareersDetails({
             <span>{locationEn}</span>
           </div>
         </div>
-        <i onClick={onCloseDetails} className="lg:hidden visible fa fa-times cursor-pointer "></i>
+        <div className=" lg:hidden visible  cursor-pointer ">
+          <i onClick={onCloseDetails} className=" lg:hidden visible fa fa-times cursor-pointer "></i>
+
+        </div>
         {/* <div className="sm:hidden visible" onClick={onCloseDetails}>close </div> */}
       </div>
 

@@ -13,8 +13,8 @@ import {useRef,useCallback ,useEffect, useState} from "react";
 import { useTranslations } from "next-intl";
 import { useParams,useSearchParams, } from "next/navigation";
  import useHandleForm from "../hooks/handle_forms";
-import useGetData from "@/app/utils/getData";
-import {instance} from "@/app/utils/axios";
+ import {instance} from "@/app/utils/axios";
+
 
 export default function ResumeForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -38,7 +38,6 @@ export default function ResumeForm() {
         if(id=="false" ){
           response = await instance.get('/api/' + "availableJobs");
            setJobsList(response.data.availableJobs?.availableJobs || []);  
-  
         } 
       } catch (error) {
         console.error('Error fetching clientData:', error);

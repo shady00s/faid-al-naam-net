@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+  font-family: 'Almarai';
+  src: url('../public/fonts/Almarai/Almarai-Regular.ttf') format('truetype'); /* Replace 'Almarai.ttf' with your font file name */
+}
+
+body {
+  font-family: 'Almarai', sans-serif;
+}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

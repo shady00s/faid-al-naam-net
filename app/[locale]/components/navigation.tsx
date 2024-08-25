@@ -20,7 +20,7 @@ const NavigationComponent: React.FC = () => {
   const { width } = useWindowSize();
 
   const [currentLocation, setCurrentLocation] = useState("/");
-  const regex = /^\/ar\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
+  const regex = /^\/(ar|en)\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
   
   useEffect(() => {
     getActiveLink(window.location.pathname);

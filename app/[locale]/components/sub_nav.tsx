@@ -4,7 +4,6 @@ import Link from "next/link";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import Image from "next/image";
 import contact from "/public/images/contactUsImage.svg";
 export default function SubNavComponent() {
   const animate = useAnimation();
@@ -33,15 +32,10 @@ export default function SubNavComponent() {
         isEnglish ? "items-start" : "items-end"
       }`}
     >
-      <div className="flex justify-center relative items-center flex-col w-full h-[21rem]">
-        <div className=" absolute top-0 left-0 w-screen h-full bg-no-repeat bg-center ">
-          <Image
-            priority={true}
-            src={contact}
-            alt="contact us image"
-            fill={true}
-          />
-        </div>
+      <div className="flex justify-center relative items-center flex-col w-full h-[21rem]" style={{  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundImage: `url(${contact.src })`,}}>
+     
         <motion.span
           ref={refAttr}
           variants={{

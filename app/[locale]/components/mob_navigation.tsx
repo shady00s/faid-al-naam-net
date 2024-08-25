@@ -12,7 +12,7 @@ export default function MobileNavComponent({ isEnglish, langVal }: any) {
   const animate = useAnimation();
   const [navClose, setNavClose] = useState<boolean>(false);
   const [currentLocation, setCurrentLocation] = useState("/");
-  const regex = /^\/ar\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
+  const regex = /^\/(ar|en)\/projects\/(?:%[0-9A-Fa-f]{2}|[-._~!$&'()*+,;=:@]|[a-zA-Z0-9])*$/;
 
   let currentLang = useParams().locale;
   useEffect(() => {

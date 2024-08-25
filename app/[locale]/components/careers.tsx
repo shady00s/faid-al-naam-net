@@ -62,7 +62,7 @@ const isEnglish = useParams().locale == "en";
       setData(dataList[0]);
       setActive(dataList[0]?._id ?? "");
     }
-  }, [dataList]);
+  }, [dataList,isInView,  ]);
   return (
         <>
           <div
