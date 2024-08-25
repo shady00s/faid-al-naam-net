@@ -26,7 +26,7 @@ export default async function formListCreatorHelper({
   entries.forEach(async([key, value]) => {
 
     let keyWithoutNumber = keyNumberValidator(key)
-    if (keyWithoutNumber.search('List') != -1 || keyWithoutNumber.search('Media') != -1) {
+    if (keyWithoutNumber.search('List') != -1 || keyWithoutNumber.search('resumeMedia') != -1 || keyWithoutNumber.search('Media') != -1) {
       if (value != '') {
         if (mergedListForm.has(keyWithoutNumber)) {
           if (typeof value === "object") {

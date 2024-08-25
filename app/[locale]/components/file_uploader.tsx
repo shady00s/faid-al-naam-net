@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useMemo } from "react";
+import React ,{ useRef, useState, useMemo,FC, memo } from "react";
 import word from "/public/images/word.svg";
 import pdf from "/public/images/pdf.svg";
 import Image from "next/image";
@@ -8,9 +8,10 @@ interface fileUploader {
   disabled: boolean;
   title: string;
   subTitle: string;
+  onSelect:(file:File)=>void
 }
 
-export default function FileUploader({ disabled, title, subTitle }: fileUploader) {
+const  FileUploader = ({ disabled, title, subTitle,onSelect }: fileUploader) =>{
   const inputRef = useRef<HTMLInputElement>(null);
   const [cachedFile, setCachedFile] = useState<File | null>(null);
 
@@ -23,10 +24,10 @@ export default function FileUploader({ disabled, title, subTitle }: fileUploader
 
     if (newFile) {
       setCachedFile(newFile);
+      onSelect(newFile)
     }
   };
   const handleClick = (e: any) => {
-    setCachedFile(null)
     
         e.preventDefault();
         if (inputRef.current) {
@@ -83,3 +84,5 @@ export default function FileUploader({ disabled, title, subTitle }: fileUploader
     </div>
   );
 }
+
+export default memo(FileUploader)

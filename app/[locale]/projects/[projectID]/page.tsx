@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from 'next/link'
 import { Metadata } from "next";
 import ProjectCardServerSideComponent from "../../components/project_card_component_server";
+import SplashScreen from "../../components/splash_screen";
 
 export async function generateMetadata({
   params: { locale,projectID
@@ -37,24 +38,24 @@ export async function generateMetadata({
 
     title:
       locale === "en"
-        ? data.project.projectNameEn
-        : data.project.projectNameAr,
+        ? data?.project?.projectNameEn
+        : data?.project?.projectNameAr,
     description:
       locale === "en"
-      ? data.project.discreptionEn
-      : data.project.discreptionAr,
+      ? data?.project?.discreptionEn
+      : data?.project?.discreptionAr,
     // Open Graph properties
     openGraph: {
       title:
       locale === "en"
-        ? data.project.projectNameEn
-        : data.project.projectNameAr,
+        ? data?.project?.projectNameEn
+        : data?.project?.projectNameAr,
     description:
       locale === "en"
-      ? data.project.discreptionEn
-      : data.project.discreptionAr,
+      ? data?.project?.discreptionEn
+      : data?.project?.discreptionAr,
       images: {
-        url: data.project.media.find((e:string)=> !youtubeRegex.test(e)),
+        url: data?.project?.media.find((e:string)=> !youtubeRegex.test(e)),
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
@@ -63,18 +64,18 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       images: {
-        url: data.project.media.find((e:string)=>!youtubeRegex.test(e)),
+        url: data?.project?.media.find((e:string)=>!youtubeRegex.test(e)),
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
       title:
       locale === "en"
-        ? data.project.projectNameEn
-        : data.project.projectNameAr,
+        ? data?.project?.projectNameEn
+        : data?.project?.projectNameAr,
     description:
       locale === "en"
-      ? data.project.discreptionEn
-      : data.project.discreptionAr,
+      ? data?.project?.discreptionEn
+      : data?.project?.discreptionAr,
     },
   };
 }
@@ -104,18 +105,19 @@ export default async function Page({
         "text-center flex items-start w-screen  overflow-x-hidden flex-col justify-start h-full"
       }
     >
-      <div className="h-12"></div>
+      {data && data.project? <>
+        <div className="h-12"></div>
       {/* Image with title */}
       <div className="w-screen h-[24rem] relative flex items-center justify-center">
         <Image
           className="blur-sm backdrop-blur-sm bg-black/30"
-          src={data.project.media.find((e: string) => !youtubeRegex.test(e))}
+          src={data?.project?.media.find((e: string) => !youtubeRegex.test(e))}
           priority={true}
           fill={true}
           alt="project main image"
         />
         <h1 className="z-10 text-white font-bold text-3xl">
-          {isEnglish ? data.project.projectNameEn : data.project.projectNameAr}
+          {isEnglish ? data?.project?.projectNameEn : data?.project?.projectNameAr}
         </h1>
       </div>
 {/* project target */}
@@ -123,7 +125,7 @@ export default async function Page({
       <div>
         <ProjectDetailsTitle title={content("target")} isEnglish={isEnglish} />
         <p className={`px-14 py-4 ${isEnglish ? "text-start" : "text-end"}`}>
-          {isEnglish ? data.project.discreptionEn : data.project.discreptionAr}
+          {isEnglish ? data?.project?.discreptionEn : data?.project?.discreptionAr}
         </p>
       </div>
 
@@ -132,12 +134,12 @@ export default async function Page({
       <div className={`flex flex-col ${isEnglish?"justify-end":"items-end"}`}>
         <ProjectDetailsTitle title={content("steps")} isEnglish={isEnglish} />
         <div className='h-5'></div>
-        <ProjectDetailsIndecator isEnglish={isEnglish} numberOfTodos={data.project.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)
+        <ProjectDetailsIndecator isEnglish={isEnglish} numberOfTodos={data?.project?.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)
         )}/>
         <div className='h-5'></div>
-        {isEnglish? data.project.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)).map((e:any,index:number)=> <ProjectDetailsTodo key={index} isEnglish={isEnglish} title={e.step} 
+        {isEnglish? data?.project?.projectStepsEn.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)).map((e:any,index:number)=> <ProjectDetailsTodo key={index} isEnglish={isEnglish} title={e.step} 
         isFinished={e.status}/>):
-        data.project.projectStepsAr.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)).map((e:any,index:number)=> 
+        data?.project?.projectStepsAr.sort((a:any,b:any)=>   Number(b.status) - Number(a.status)).map((e:any,index:number)=> 
         <ProjectDetailsTodo key={index} isEnglish={isEnglish} title={e.step} isFinished={e.status}/>)}
       </div>
       <div className="h-24"></div>
@@ -145,7 +147,7 @@ export default async function Page({
       <div className={"flex flex-col"}>
       <ProjectDetailsTitle title={content("media")} isEnglish={isEnglish} />
       <div className={"w-full  flex justify-center flex-wrap p-4"}>
-        {data.project.media.map((e:string)=>  youtubeRegex.test(e)? 
+        {data?.project?.media.map((e:string)=>  youtubeRegex.test(e)? 
         <iframe
         key={e} 
         className="m-1 w-full  md:w-2/5   h-[20rem] md:h-[21rem]"
@@ -164,7 +166,7 @@ export default async function Page({
       <div  className={`flex flex-col `}>
         <ProjectDetailsTitle title={content("seeAlso")} isEnglish={isEnglish} />
         <div className={`flex items-center h-full m-auto w-[90%] content-center flex-wrap ${isEnglish?"justify-start":"justify-end"}`} >
-                       {data.projects.map((e:any) => (
+                       {data?.projects?.map((e:any) => (
                               <ProjectCardServerSideComponent
                                isEnglish={isEnglish}
                                 key={e._id}
@@ -200,6 +202,8 @@ export default async function Page({
                 </Link>
               </div>
  
+      </> : <SplashScreen/>}
+     
       <Footer/>
     </section>
   );

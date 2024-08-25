@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   env: {
     MONGODB_URI:
-      "mongodb+srv://shadyskamal0:CY6ENfs2d1qbSOuQ@cluster0.ldulrqn.mongodb.net/?retryWrites:true&w:majority",
+      "mongodb+srv://shadyskamal0:CY6ENfs2d1qbSOuQ@cluster0.ldulrqn.mongodb.net/?retryWrites=true&w=majority",
     DATABASE_NAME: "test",
     BASE_URL: "https://faid-al-naam-next.vercel.app/",
 

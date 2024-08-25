@@ -14,24 +14,31 @@ import { useTranslations } from "next-intl";
 import { useParams,useSearchParams, } from "next/navigation";
  import useHandleForm from "../hooks/handle_forms";
  import {instance} from "@/app/utils/axios";
+import { useRouter } from "next/navigation";
+import { getBase64 } from "@/app/utils/convert_image";
 
 
 export default function ResumeForm() {
   const formRef = useRef<HTMLFormElement>(null);
+  let params = useParams().locale;
   const isEnglish = useParams().locale == "en";
-  let position:any = null;
- const content = useTranslations("")
+  const content = useTranslations("")
  const [jobsList,setJobsList] = useState<any[]>([])
-    const { isSubmitting, handleSubmit, submitError,canNavigate } = useHandleForm({
-    successNavUrl: "/careers",
-    url: "/resumes/upload-resume",
+ const router = useRouter();
+ const [selectedFile,setSelectedFile]= useState<string|null>(null)
+
+    const { isSubmitting, handleSubmit, submitError } = useHandleForm({
+     url: "/resumes/upload-resume",
     id: "",
+    mediaUrls:{name:"resumeMedia",value:[selectedFile??'']},
+    onSuccess:()=>{
+      router.push(`/${params}/careers`)
+    }
   });
     let id = useSearchParams().get("availableJob")
     let title = useSearchParams().get("jobName")
     
-    let data = null;
-
+     
     const fetchData = useCallback(async () => {
       try {
         let response:any;
@@ -409,6 +416,10 @@ export default function ResumeForm() {
             />
 
             <FileUploader
+            onSelect={async(file)=>{
+              let converted = await getBase64(file)
+              setSelectedFile(()=>converted)
+            }}
               title={content("SelectResume")}
               subTitle={content("NoFileSelected")}
               disabled={isSubmitting}

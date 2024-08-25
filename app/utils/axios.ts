@@ -3,7 +3,7 @@ import axios from "axios"
  
  
  const instance = axios.create({
-    baseURL:   process.env.BASE_URL,
+    baseURL:  process.env.NODE_ENV === 'development' ? "http://localhost:3000" : process.env.BASE_URL,
     withCredentials: false,
     timeout: 20000,
 
@@ -15,7 +15,6 @@ import axios from "axios"
 const instance2 = axios.create({
     baseURL:   process.env.DASHBOARD_BASE_URL,
     withCredentials: false,
-    timeout: 20000,
 
     headers: {
         'Content-Type': 'application/json',

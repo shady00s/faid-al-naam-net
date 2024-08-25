@@ -2,24 +2,23 @@ import {instance2} from '@/app/utils/axios';
 import formListCreatorHelper from '@/app/utils/formListCreatorHelper';
 import { useState, useCallback } from 'react';
  interface useHandleFormsInterface {
-    successNavUrl: string,
+    onSuccess?: () => void;
     url: string,
     id: string,
     mediaUrls?: { name: string, value: string[] },
+     
  }
 
 interface returnData {
     isSubmitting: boolean;
     handleSubmit: (formData: any) => void;
     submitError: string | null;
-    canNavigate:boolean
 
 }
-export default function useHandleForm({ successNavUrl, url, id, mediaUrls }: useHandleFormsInterface): returnData {
+export default function useHandleForm({ onSuccess, url, id, mediaUrls }: useHandleFormsInterface): returnData {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setError] = useState<string | null>(null);
-    const [canNavigate,setCanNavigate] = useState<boolean>(false)
-    const handleSubmit = useCallback(async (formData: any) => {
+     const handleSubmit = useCallback(async (formData: any) => {
         formData.preventDefault()
         setIsSubmitting(true);
         setError(null);
@@ -37,18 +36,19 @@ export default function useHandleForm({ successNavUrl, url, id, mediaUrls }: use
             withCredentials: false,
             
         }).then((data) => {
-                setCanNavigate(true)
-                setIsSubmitting(false);
+                 setIsSubmitting(false);
             
-
+                onSuccess?.();
         }).catch((error: any) => {
             setError(error.response.data.msg)
-            setCanNavigate(true)
-            setIsSubmitting(false);
+             setIsSubmitting(false);
             return false
         })
-    }, [ successNavUrl, url, mediaUrls]);
+    }, [ onSuccess, url, mediaUrls]);
 
-    return { isSubmitting, handleSubmit, submitError,canNavigate };
+    return { isSubmitting, handleSubmit, submitError };
 
 }
+
+
+
