@@ -54,7 +54,7 @@ export async function generateMetadata({
       ? data.project.discreptionEn
       : data.project.discreptionAr,
       images: {
-        url: data.project.media.filter((e:string)=> youtubeRegex.test(e))[0],
+        url: data.project.media.find((e:string)=> !youtubeRegex.test(e)),
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
@@ -63,7 +63,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       images: {
-        url: data.project.media.filter((e:string)=> youtubeRegex.test(e))[0],
+        url: data.project.media.find((e:string)=>!youtubeRegex.test(e)),
         alt: "Faid Al-Naam For Food Security",
         type: "image/svg",
       },
