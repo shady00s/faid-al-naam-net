@@ -16,6 +16,7 @@ import { useParams,useSearchParams, } from "next/navigation";
  import {instance} from "@/app/utils/axios";
 import { useRouter } from "next/navigation";
 import { getBase64 } from "@/app/utils/convert_image";
+import React from "react";
 
 
 export default function ResumeForm() {

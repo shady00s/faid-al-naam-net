@@ -106,7 +106,7 @@ import TestimonialsComponent from "./components/testimonials";
        ></div>
       {isLoading? <SplashScreen/> : 
       
-     <div className={` w-full min-h-screen overflow-x-hidden bg-white  relative  flex flex-col p-0`}>
+     <div className={` w-full min-h-screen overflow-x-hidden from-[#FAFAFA] via-[#FAF7F7] to-[#F0F0F0]  relative  flex flex-col p-0`}>
       <section
         ref={imageContainerRef}
         className={` w-full h-screen min-h-screen  overflow-x-hidden overflow-y-hidden bg-black  relative  flex flex-col p-0`}

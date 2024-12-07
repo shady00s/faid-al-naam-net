@@ -1,7 +1,7 @@
 import Link  from 'next/link';
-import fb from '/public/images/facebook-f.svg';
-import ln from '/public/images/linkedin-in.svg';
-import x from '/public/images/x.svg';
+import fb from '../../../public/images/facebook-f.svg';
+import ln from '../../../public/images/linkedin-in.svg';
+import x from '../../../public/images/x.svg';
 import Image from 'next/image';
 
 interface employeeInterface {

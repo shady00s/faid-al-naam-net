@@ -38,9 +38,9 @@ export default function MessionScreen({ navReff }: aboutUsInterface) {
   return (
     <section
       ref={navReff}
-      className={` w-full z-20 relative  h-auto min-h-screen  justify-center  items-center   bg-white  flex flex-col p-8  `}
+      className={` w-full z-20 relative  h-auto min-h-screen  justify-center  items-center from-[#FAFAFA] via-[#FAF7F7] to-[#F0F0F0]  flex flex-col p-8  `}
     >
-      <div className="h-[10vh]"></div>
+      <div className="h-[6vh]"></div>
       <div ref={refAttr} className="h-[70%]  absolute top-[12%]"></div>
 
       <div className="max-w-[1080px]">

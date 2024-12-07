@@ -8,8 +8,7 @@ export default function ProjectDetailsIndecator({
   numberOfTodos: [];
 }) {
   const width = Math.round((numberOfTodos.filter((e: any) => e.status == true).length) / numberOfTodos.length * 100);
-  console.log(width)
-  return (
+   return (
     <div className={`w-full `}>
       <div
         className={`flex items-center ${isEnglish?"":"flex-row-reverse"} justify-between px-1 w-[90%] m-auto divide-x relative h-4 rounded-md`}

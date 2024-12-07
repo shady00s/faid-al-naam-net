@@ -3,7 +3,7 @@ export default function ProjectDetailsTitle({ title, isEnglish }: { title: strin
         <div
         className={`flex ${
           isEnglish ? " justify-start  " : "  justify-end"
-        } items-center w-screen py-3 px-10`}
+        } items-center w-full py-3 px-10`}
       >
         <div
           className={`flex items-center ${
